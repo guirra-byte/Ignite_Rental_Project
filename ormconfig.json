@@ -1,0 +1,17 @@
+{
+  "type": "postgres",
+  "port": 5432,
+  "host": "localhost",
+  "username": "docker",
+  "password": "ignite",
+  "database": "mabel",
+  "migrations": [
+    "./src/Shared/infra/Database/Migrations/*.ts"
+  ],
+  "entities": [
+    "./src/modules/**/model/*.ts"
+  ],
+  "cli": {
+    "migrationsDir": "./src/Shared/infra/Database/Migrations/"
+  }
+}

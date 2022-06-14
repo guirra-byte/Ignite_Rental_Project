@@ -1,0 +1,147 @@
+class CategoriesRepository {
+
+  private categories: modelClassCategory[]
+  //categories: modelClassCategory[] -> Atributo de um classe
+  //Remover a inicialização do nosso categories =[]
+  //Colocar dentro do Constructor(){}
+  //Para ser usado quando for Instanciado 
+  //O que é ser Instanciado?
+  //Instanciar é iniciar a variável ou afins com um novo valor ou como um novo Objeto
+  //Criar um instancia
+  //const CategoriesRespoistory = new categories()
+
+  //Tirar a responsabilidade da variável
+  //Private por que só o nosso Repositório terá
+  // acesso ao categories: modelClassCategory[] = []
+
+  constructor(){
+   this.categories = []
+ }
+ //Constructor é executado a partir de uma Instanciação
+ //Para chamar um atributo de dentro da class usamos o THIS.nameOfAttribute
+
+ create({name, description} : ICreateCategoryModelDTO){ 
+   /*As nossas rotas não precisam 
+  conhecer as informações do nosso
+   modelo de Categorias === Category as modelClassCategory*/
+   //Isso é um dever dos nossos Repositórios
+   //Utilizar um DTO
+   //Data Transfer Object
+   //Objeto responsável por fazer a transferência de Dados de uma classe para outra
+   //Pegar os valores da nossa rota e realocar nos repositórios
+   const CreateModelCategory = new CategoriesRepository();
+
+   Object.assign(CreateModelCategory, {
+     name, 
+     description,
+     created_at: new Date()
+   })
+ } // Cadastrar a nossa Categoryna nossa Tabela Fake
+
+ const categories: modelClassCategory[] = []
+//Podemos entender esse categories como uma tabela do nosso DataBase(Banco de Dados)
+
+categories.push(CreateModelCategory)
+  //categories.push é representado como o Insert do nosso DataBase(Banco de Dados)
+  //Como possuo conhecimento em Prisma e Banco de Dados
+  //categories.push é o prisma.create({data: {}})
+  //Vamos fazer a susbstituição de arquivo em memoria, para arquivos em Banco de Dados
+  //Não é correto as Requisições ficarem sobrecarregadas de responsabilidades
+
+  Todas as vezes que usamos:
+const instanceCategoriesRepository = new CategoriesRepository()
+
+Um new CategoriesRepository()
+ele cria uma Instanciação e acessa o arquivo CategoriesRepository
+
+class CategoriesRepository {
+
+  private categories: modelClassCategory[];
+
+  constructor() {
+    this.categories = []
+  }
+
+  faz o Read no meu constructor(){} e Inicializa o Array
+
+  Todos os services vão fazer o Read no constructor(){} e sempre irão criar um nova Instanciação de Repositório e nunca teríamos acesso ao mesmo Repositório
+
+  //Aplicação do segundo Princípio:
+  DIP:
+  Princípio da Inversão de Dependência
+--> Os Módulos de Alto Nível não devem depender dos Módulos de Baixo Nível
+
+Os compenentes de Baixo Nível definem os termos da Interface de Abstração -- Nossas routes 
+--> Mais perto do contato com o User
+
+Os componentes de Alto Nível Usam a Interface de Abstração para se comunicar com os componentes de Baixo Nível --- Nosso services
+--> Mais perto do Domínio da Aplicação
+
+class CreateCategoryService {
+
+  // private categoriesRepository: CategoriesRepository
+
+  constructor(private categoriesRepository: CategoriesRepository) { }
+
+  //Instanciação --> new CategoriesRepository()
+  //Acessava o Repositório 
+  //Chama nosso service --> Constructor(){}
+
+  execute({ name, description }: IRequest): void {
+
+    //Princípio da Inversão de Dependência 
+    //Deixa a responsabilidade para quem chama nosso Service
+    //lógica do CPF
+    //.this --> Acessando uma variável de dentro do meu constructor(){}
+
+    const verifyCategoryAlreadyExists = this.categoriesRepository.findByName(name);
+
+    if (verifyCategoryAlreadyExists) {
+      throw new AppError("Category Already Exists")
+      //Antes estava utilizando o Return Response
+      //Se trocarmos de Framework ao invés de usar o Express era um grande erro usar o Request e Response
+    }
+
+    this.categoriesRepository.create({ name, description })
+  }
+
+Upload do Avatar de User;
+
+[x] - Adicionar coluna de Avatar no Banco de Dados
+[x] - Refatorar user com coluna de Avatar
+[] - Configuração de Upload com Multer
+[] - Regra de Negócios 
+[] - Controller
+
+Implementação de JWT(Json Web Token);
+Utilização do Hash de Password;
+  [] - Hash, Compare from { bcryptjs }
+  [] - sign, verify from { jsonwebtoken }
+Criação de uma Entity AppError para fazer o gerenciamento dos erros concebidos pela aplicação;
+  -> Utilização nas Routes, para verificar as instancias dos erros concebidos;
+Maior controle dos erros e suas instancias;
+Utilização de um Hash de Senha com Criptografia HashMD5;
+Essa password permite a utilização dos recursos do JWT;
+
+---Importante---
+A utilização de Auth Routes, nos possibilita eliminar as autenticação nos UseCases;
+Pois todas as rotas possuiram verificação dos Auth Tokens;
+
+Para a implementação de Inejeção de dependência, devemos criar um file e passar todas as injeções;
+Unique File;
+
+Podemos criar variáveis no Request
+Mas para isso devemos reescrever as suas Dependências;
+
+Estrutura:
+  @types
+    Express
+      index.d.ts
+        declare namespace Express{
+
+            export interface Request{
+
+                nomeDeclarado: { yourProperties }
+            }
+        }
+---!!!!---
