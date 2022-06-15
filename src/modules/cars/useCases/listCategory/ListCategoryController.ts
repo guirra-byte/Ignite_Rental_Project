@@ -4,15 +4,27 @@ import { container } from 'tsyringe';
 
 export class ListCategoryController {
 
+  constructor(private findAllCategories: ListCategoryUseCase) { }
+
   async handle(request: Request, response: Response) {
 
-    const listAllCategories = container.resolve(ListCategoryUseCase);
+    try {
 
-    const all = await listAllCategories.execute();
+      const allCategories = await this
+        .findAllCategories
+        .execute();
 
-    return response.json(all).status(201);
+      return response
+        .status(200)
+        .json({ allCategories });
 
+    }
+    catch (exception) {
 
+      return response
+        .status(400)
+        .json({ message: { exception } });
+    }
   }
 }
 

@@ -7,5 +7,6 @@ export interface IUserRepository {
   findOne(username: string): Promise<User>
   findAll(): Promise<User[]>
   findById(sub: string): Promise<User>
+  verifyUserIsAdmin(sub: string): Promise<User | undefined>
 
 }

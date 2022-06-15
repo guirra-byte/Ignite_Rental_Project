@@ -1,20 +1,16 @@
 import 'reflect-metadata';
 import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
-import { inject, injectable } from 'tsyringe';
-import { AppError } from '../../../../Errors/AppError';
+import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
+
 
 interface IRequest {
   name: string,
   description: string
 }
 
-@injectable()
 class CreateCategoryUseCase {
 
-  constructor(
-
-    @inject("CategoriesRepository")
-    private categoriesRepository: ICategoriesRepository) { }
+  constructor(private categoriesRepository: ICategoriesRepository) { }
 
   async execute({ name, description }: IRequest) {
 

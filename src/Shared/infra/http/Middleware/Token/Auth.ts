@@ -1,9 +1,9 @@
-import { verify } from 'jsonwebtoken';
-
 import { Request, Response, NextFunction } from 'express';
 
-import { AppError } from '@error/AppError';
+import { verify } from 'jsonwebtoken';
+
 import { UserRepository } from '@modules/accounts/repositories/implementations/UserRepository';
+import { AppError } from '../../Errors/AppError';
 
 interface IPayloadProps {
 
@@ -28,10 +28,15 @@ export async function VerifyUserAuthToken(request: Request, response: Response, 
 
     const user = verify(authToken, "f750766d2e4617e94eb4f943625ceeaa") as IPayloadProps;
 
-    const userRepository = new UserRepository();
-    await userRepository.findById(user.sub);
+    const { sub } = user;
 
-    if (!userRepository) {
+    const userRepository = UserRepository
+      .getInstance();
+
+    const findUser = await userRepository
+      .findById(sub);
+
+    if (!findUser) {
 
       throw new AppError("This user does not exists!");
     }

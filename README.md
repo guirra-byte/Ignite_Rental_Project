@@ -2,15 +2,14 @@
 
 **Requisistos Funcionais: Cadastro de Carros**
 
-- [] Deve ser possível cadastrar um novo Carro;
-- [] Deve ser possível cadastrar todas as Categories;
+- [x] Deve ser possível cadastrar um novo Carro;
 
 **Regras de Negócios: Cadastro de um Carro**
 
-- [] Não deve ser possível cadastrar um carro com uma placa que já existe;
+- [x] Não deve ser possível cadastrar um carro com uma placa que já existe;
+- [x] O User responsável pelo cadastro de Carro deve possuir a propriedade isAdmin como True;
+- [x] O Carro deve ser cadastrado com a disponibilidade por padrão True;
 - [] Não deve ser possível alterar a placa de um carro que já está cadastrado;
-- [] O Carro deve ser cadastrado com a disponibilidade por padrão True;
-- [] O User responsável pelo cadatro de Carro deve ser um User Admin;
 
 
 # Listagem de Carros:
@@ -24,8 +23,8 @@
 
 **Regras de Negócios: Listagem de Carro**
 
-- [] Deve ser possóvel listar os carros;
-- [] O User não precisa estar logado no sistema;
+- [] Deve ser possível listar os carros;
+- [] O User não precisa estar logado na aplicação - User Auth Token;
 
 # Cadastro de Especficação:
 
@@ -67,6 +66,10 @@
 - [] Não deve ser possível fazer o Aluguel de um Carro que já esteja Alugado;
 - [] Não deve ser possível Alugar mais de um Carro;
 - [] Não deve ser possível Alugar um Carro sem estar Cadastrado;
+
+- [x] **`Verificação de User License_Plate por meio de Middleware;`**
+- [x] **`Verificação de User isAdmin por meio de Middleware;`**
+
 
 
 Requisitos da Aplicação:

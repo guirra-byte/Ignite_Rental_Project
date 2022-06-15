@@ -1,41 +1,54 @@
 import { specification as Specification } from "../../model/Specification";
 import { ICreateSpecificationDTO } from "../../Services/Data/ICreateSpecificationDTO";
 import { ISpecificationsRepository } from "../ISpecificationRepository";
-import { Repository, getRepository } from "typeorm";
+
+import { prisma } from "Shared/infra/Prisma/Client/Client";
 
 
 export class SpecificationRepository implements ISpecificationsRepository {
 
-  private allSpecifications: Repository<Specification>
+  private static INSTANCE: SpecificationRepository;
 
-  constructor() {
+  constructor(private repository: typeof prisma) { }
 
-    this
-      .allSpecifications = getRepository(Specification);
+  static getInstance(): SpecificationRepository {
+
+    if (!SpecificationRepository.INSTANCE) {
+
+      SpecificationRepository.INSTANCE = new SpecificationRepository(prisma);
+    }
+
+    return SpecificationRepository.INSTANCE;
+
   }
 
   async create({ name, description }: ICreateSpecificationDTO): Promise<void> {
 
-    const specifications = this.allSpecifications.create({
-      name,
-      description
-    });
-
     await this
-      .allSpecifications
-      .insert(specifications);
-    //Insert do DataBase (Banco de Dados)
+      .repository
+      .specifications
+      .create({ data: { name, description } });
+
   }
 
 
-  async findByName(name: string): Promise<Specification[]> {
+  async findByName(name: string): Promise<Specification> {
 
-    const specificationName = name;
+    const findUniqueSpecification = await this
+      .repository
+      .specifications
+      .findUnique({ where: { name: name } });
 
-    const verifySpecificationAlreadyExists = await this
-      .allSpecifications
-      .find({ where: { name: specificationName } });
+    return findUniqueSpecification;
+  }
 
-    return verifySpecificationAlreadyExists;
+  async findAllSpecifications(): Promise<Specification[]> {
+
+    const findAllSpecifications = await this
+      .repository
+      .specifications
+      .findMany();
+
+    return findAllSpecifications;
   }
 }

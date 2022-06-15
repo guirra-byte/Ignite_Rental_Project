@@ -1,9 +1,14 @@
-import { injectable, inject } from "tsyringe";
+import { ICarRepository } from "@modules/cars/repositories/ICarRepository";
+import { ICarRequestPropsDTO } from "@modules/cars/Services/Data/ICarRequestPropsDTO";
 
-injectable()
 export class CreateCarUseCase {
 
-  constructor() { }
+  constructor(private carRepository: ICarRepository) { }
 
-  async execute(): Promise<void> { }
+  async execute(props: ICarRequestPropsDTO) {
+
+    await this
+      .carRepository
+      .createCar(props);
+  }
 }

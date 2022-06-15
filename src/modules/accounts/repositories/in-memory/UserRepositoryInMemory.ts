@@ -1,35 +1,37 @@
-import { ICreateUserDTO } from '@modules/accounts/Services/Data/ICreateUserDTO';
-import { IUserRepository } from '@modules/accounts/repositories/IUserRepository';
-import { User } from '@modules/accounts/model/User';
+import { ICreateUserDTO } from '../../Services/Data/ICreateUserDTO';
+import { IUserRepository } from '../IUserRepository';
+import { User } from '../../model/User';
 
 export class UserRepositoryInMemory implements IUserRepository {
 
-  private repository: User[]
+  private repository: User[];
 
   constructor() {
 
-    this.repository = []
+    this.repository = [];
   }
 
-  async create({ name, email, password, driver_license, id, avatar }: ICreateUserDTO): Promise<void> {
+  async create({ name, username, email, password, driver_license }: ICreateUserDTO): Promise<void> {
 
     const create = {
 
       name: name,
       email: email,
+      username: username,
       password: password,
       driver_license: driver_license,
     }
 
-    const createUser = new User();
+    const createUser = new User(create);
 
-    Object.assign(createUser, {
+    Object
+      .assign(createUser, {
 
-      name: create.name,
-      email: create.email,
-      password: create.password,
-      driver_license: create.driver_license
-    });
+        name: create.name,
+        email: create.email,
+        password: create.password,
+        driver_license: create.driver_license
+      });
 
     await this
       .repository
@@ -58,5 +60,22 @@ export class UserRepositoryInMemory implements IUserRepository {
       .find((user) => sub === user.id)
 
     return findUserById;
+  }
+
+  async verifyUserIsAdmin(sub: string): Promise<User | undefined> {
+
+    const verifyUserAdminProp = await this
+      .repository
+      .find((user) => user.id === sub);
+
+    console
+    .log(verifyUserAdminProp);
+
+    if (verifyUserAdminProp.isAdmin) {
+
+      return verifyUserAdminProp;
+    }
+
+    return undefined;
   }
 }

@@ -1,40 +1,36 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 import { v4 as uuidV4 } from 'uuid';
+import { ICreateUserDTO } from '../Services/Data/ICreateUserDTO';
 
-@Entity("users")
+
 export class User {
 
-  @PrimaryColumn()
   id?: string
-
-  @Column()
   name: string
-
-  @Column()
+  username: string
   password: string
-
-  @Column()
   email: string
-
-  @Column()
   driver_license: string
-
-  @Column()
   isAdmin: boolean
+  created_at?: Date
+  avatar?: string
 
-  @CreateDateColumn()
-  created_at: Date
+  constructor(props: ICreateUserDTO, id?: string, isAdmin = false) {
 
-  @Column()
-  avatar: string
+    const newObject: ICreateUserDTO = {
 
-  constructor() {
-
-    this.isAdmin = false;
-
-    if (!this.id) {
-
-      this.id = uuidV4();
+      name: props.name,
+      username: props.username,
+      password: props.password,
+      email: props.email,
+      driver_license: props.driver_license,
+      isAdmin: isAdmin,
+      created_at: new Date(),
+      avatar: props.avatar,
+      id: id ?? uuidV4()
     }
+
+    Object
+      .assign(this, newObject);
+
   }
 }

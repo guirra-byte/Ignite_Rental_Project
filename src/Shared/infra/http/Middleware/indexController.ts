@@ -1,13 +1,24 @@
-import { VerifyCategoriesAlreadyExistsMiddleware } from ".";
-import { container } from 'tsyringe';
 import { Request, Response, NextFunction } from 'express';
+import { CategoriesRepository } from '../../../../modules/cars/repositories/implementations/CategoriesRepository';
+import { AppError } from '../Errors/AppError';
 
-export class VerifyCategoriesAlreadyExistsMiddlewareController {
+const verifyCategoryAlreadyExists = async (request: Request, response: Response, next: NextFunction) => {
 
-  async handle(request: Request, response: Response, next: NextFunction) {
 
-    const verify = container.resolve(VerifyCategoriesAlreadyExistsMiddleware);
-    const find = await verify.verifyCategory(request, response, next);
-    return find;
+  const { name } = request.body;
+
+  const categoryRepository = CategoriesRepository.getInstance();
+
+  const findCategoryByName = await categoryRepository
+    .findOneCategory(name);
+
+  if (findCategoryByName) {
+
+    throw new AppError("This Category Already Exists!");
   }
+
+  next();
+
 }
+
+export { verifyCategoryAlreadyExists }

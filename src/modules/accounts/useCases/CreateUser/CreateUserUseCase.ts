@@ -1,17 +1,14 @@
-import { inject, injectable } from "tsyringe";
 import { IUserRepository } from "@modules/accounts/repositories/IUserRepository";
 import { hash } from "bcryptjs";
-import { AppError } from '../../../../Errors/AppError';
+import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 
-@injectable()
 export class CreateUserUseCase {
 
   constructor(
-    @inject("UserRepository")
     private userRepository: IUserRepository
   ) { }
 
-  async execute(name: string, email: string, password: string, driver_license: string) {
+  async execute(name: string, username: string, email: string, password: string, driver_license: string) {
 
     const passwordHash = await hash(password, 8);
 
@@ -21,15 +18,13 @@ export class CreateUserUseCase {
 
     if (findUser) {
 
-      throw new AppError("User already exists!", 404);
+      throw new AppError("User already exists!");
     }
 
     const user = await this
       .userRepository
-      .create({ name, email, password: passwordHash, driver_license });
+      .create({ name, username, email, password: passwordHash, driver_license });
 
     return user;
-
-
   }
 }

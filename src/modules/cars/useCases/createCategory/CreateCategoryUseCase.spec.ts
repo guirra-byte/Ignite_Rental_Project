@@ -1,9 +1,7 @@
 import { CreateCategoryUseCase } from './CreateCategoryUseCase';
 import { CategoriesRepositoryInMemory } from '../../repositories/in-memory/CategoryRepositoryInMemory';
 
-import { AppError } from 'Shared/infra/http/Errors/AppError';
-import { Category } from '../../model/Category';
-
+import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 
 //Implementação de Teste Unitário
 //Testagem de parte da aplicação;
@@ -11,7 +9,7 @@ import { Category } from '../../model/Category';
 let createCategoryUseCase: CreateCategoryUseCase;
 let categoriesRepository: CategoriesRepositoryInMemory;
 
-describe("Create Category", () => {
+describe("Create new Category", () => {
 
   beforeEach(() => {
 
@@ -20,7 +18,7 @@ describe("Create Category", () => {
 
   });
 
-  it("Create a new Category", async () => {
+  it("Should be able create a new Category", async () => {
 
     const category = {
 
@@ -41,7 +39,7 @@ describe("Create Category", () => {
       .toHaveProperty("id");
   });
 
-  it("Category already exists", async () => {
+  it("Should be able verify Category already exists", async () => {
 
     expect(async () => {
 

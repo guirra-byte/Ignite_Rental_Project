@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
-import { AppError } from '@error/AppError';
+import { AppError } from '../../../../../Shared/infra/http/Errors/AppError';
 
 
 interface IAuthUserRequestProps {

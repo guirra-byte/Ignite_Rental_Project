@@ -1,46 +1,36 @@
 import { AuthUserUseCase } from "./AuthUserUseCase";
 import { CreateUserUseCase } from "../../CreateUser/CreateUserUseCase";
 
-import { AppError } from '../../../../../Errors/AppError';
+import { AppError } from '../../../../../Shared/infra/http/Errors/AppError';
 
 import { UserRepositoryInMemory } from '../../../repositories/in-memory/UserRepositoryInMemory';
 
-let createUserAuthToken: AuthUserUseCase;
-let createUserUseCase: CreateUserUseCase;
-let userRepository: UserRepositoryInMemory;
-
-
-function compileEmailAppError() {
-
-  throw new AppError("Email or Password are incorrect, but now is a Email!");
-}
-
-function compilePasswordAppError() {
-
-  throw new AppError("Email or Password are incorrect!");
-}
-
 describe("Create User Auth Token", () => {
 
-  beforeEach(() => {
+  let createUserAuthToken: AuthUserUseCase;
+  let createUserUseCase: CreateUserUseCase;
+  let userRepository: UserRepositoryInMemory;
+
+  beforeEach(async () => {
 
     userRepository = new UserRepositoryInMemory();
     createUserUseCase = new CreateUserUseCase(userRepository);
     createUserAuthToken = new AuthUserUseCase(userRepository);
   });
 
-  it("Create User Auth Token", async () => {
+  test("Create User Auth Token", async () => {
 
     const user = {
 
       name: "User Name Test",
+      username: "User Username Test",
       email: "User Email Test",
       password: "User Password Test",
       driver_license: "User Driver-License Test"
     }
 
     await createUserUseCase
-      .execute(user.name, user.email, user.password, user.driver_license);
+      .execute(user.name, user.username, user.email, user.password, user.driver_license);
 
     const { email, password } = user;
 
@@ -51,7 +41,7 @@ describe("Create User Auth Token", () => {
       .toHaveProperty("token");
   });
 
-  it("User does exists", async () => {
+  test("User does exists", async () => {
 
     expect(async () => {
 

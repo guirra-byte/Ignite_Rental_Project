@@ -1,28 +1,30 @@
-import { IUserRepository } from "@modules/accounts/repositories/IUserRepository";
-import { Repository, getRepository } from "typeorm";
-import { User } from "@modules/accounts/model/User";
-import { ICreateUserDTO } from "@modules/accounts/Services/Data/ICreateUserDTO";
+import { IUserRepository } from '../IUserRepository';
+import { User } from '../../model/User';
+import { prisma } from '../../../../Shared/infra/Prisma/Client/Client';
+import { ICreateUserDTO } from '../../Services/Data/ICreateUserDTO';
 
 export class UserRepository implements IUserRepository {
 
-  private repository: Repository<User>;
+  constructor(private repository: typeof prisma) { }
 
-  constructor() {
+  private static INSTANCE: UserRepository;
 
-    this.repository = getRepository(User);
+  static getInstance(): UserRepository {
+
+    if (!UserRepository.INSTANCE) {
+
+      UserRepository.INSTANCE = new UserRepository(prisma);
+    }
+
+    return UserRepository.INSTANCE;
   }
 
-  async create({ name, email, password, driver_license, id, avatar }: ICreateUserDTO): Promise<void> {
+  async create({ name, email, password, driver_license, avatar, username }: ICreateUserDTO): Promise<void> {
 
-    const user = await this
+    await this
       .repository
-      .create({
-        name, email,
-        password, driver_license,
-        id, avatar
-      });
-
-    await this.repository.save(user);
+      .user
+      .create({ data: { name, email, password, driver_license, avatar, username } });
 
   }
 
@@ -30,7 +32,8 @@ export class UserRepository implements IUserRepository {
 
     const findUserByEmail = await this
       .repository
-      .findOne({ where: { email: email } });
+      .user
+      .findUnique({ where: { email: email } });
 
     return findUserByEmail;
   }
@@ -39,7 +42,8 @@ export class UserRepository implements IUserRepository {
 
     const findAllUsers = await this
       .repository
-      .find();
+      .user
+      .findMany();
 
     return findAllUsers;
   }
@@ -48,8 +52,22 @@ export class UserRepository implements IUserRepository {
 
     const findUserById = await this
       .repository
-      .findOne({ where: { id: sub } });
+      .user
+      .findUnique({ where: { id: sub } });
 
     return findUserById;
+  }
+
+  async verifyUserIsAdmin(sub: string): Promise<User> {
+
+    const findUser = await this
+      .repository
+      .user
+      .findUnique({ where: { id: sub } });
+
+    if (findUser.isAdmin === true) {
+
+      return findUser;
+    }
   }
 }

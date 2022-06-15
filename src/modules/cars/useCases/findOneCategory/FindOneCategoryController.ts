@@ -4,15 +4,28 @@ import { Request, Response } from 'express';
 
 export class FindOneCategoryController {
 
+  constructor(private findOneCategoryUseCase: FindOneCategoryUseCase) { }
+
   async handle(request: Request, response: Response) {
 
     const { name } = request.params;
 
-    const findOneCategory = container.resolve(FindOneCategoryUseCase);
-    await findOneCategory.execute(name);
+    try {
 
+      const findOneCategory = await this
+        .findOneCategoryUseCase
+        .execute(name);
 
-    return response.status(201).json("Aqui está seu Categoria");
+      return response
+        .status(200)
+        .json({ findOneCategory });
+    }
+    catch (exception) {
+
+      return response
+        .status(400)
+        .json({ message: { exception } });
+    }
 
   }
 }

@@ -2,12 +2,13 @@ import { Category } from "../model/Category";
 
 interface ICategoriesRepository {
 
+  create(name: string, description: string): Promise<void>;
   findOneCategory(category_id: String): Promise<Category>;
   list(): Promise<Category[]>;
-  create(name: string, description: string): Promise<void>;
 }
 
-//"Contrato" -> o que deve fazer ou como deve ser comportar
+//Funcionamento de Interface como contrato;
+//Como a Implementação deve responder e retornar valores;
 
 export { ICategoriesRepository }
 

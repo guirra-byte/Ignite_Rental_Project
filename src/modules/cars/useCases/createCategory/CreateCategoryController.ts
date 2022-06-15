@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
 import { CreateCategoryUseCase } from './CreateCategoryUseCase';
-import { container } from 'tsyringe';
-
-//Importando pois nas Routes sabe-se da existência do Request e do Response
-//Por conta do Router()
 
 export class CreateCategoryController {
+
+  constructor(private createCategoryUseCase: CreateCategoryUseCase) { }
 
   async handle(request: Request, response: Response): Promise<Response> {
 
@@ -13,8 +11,9 @@ export class CreateCategoryController {
 
     try {
 
-      const createCategoryUseCase = container.resolve(CreateCategoryUseCase);
-      await createCategoryUseCase.execute({ name, description });
+      await this
+        .createCategoryUseCase
+        .execute({ name, description });
 
       return response
         .send()
@@ -23,7 +22,9 @@ export class CreateCategoryController {
 
     catch (exception) {
 
-      return response.status(400).send(exception);
+      return response
+        .status(400
+        ).send(exception);
     }
 
   }

@@ -4,16 +4,16 @@ import { CreateSpecificationsUseCase } from './CreateSpecificationUseCase';
 
 export class CreateSpecificationController {
 
+  constructor(private createSpecificationUseCase: CreateSpecificationsUseCase) { }
+
   async handle(request: Request, response: Response): Promise<Response> {
 
     const { name, description } = request.body;
 
     try {
 
-      const createSpecificationUseCase = container
-        .resolve(CreateSpecificationsUseCase);
-
-      await createSpecificationUseCase
+      await this
+        .createSpecificationUseCase
         .execute({ name, description });
 
       return response
@@ -26,9 +26,6 @@ export class CreateSpecificationController {
         .status(400)
         .json("Deu erro aqui");
     }
-
-
-
 
   }
 }

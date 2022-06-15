@@ -1,7 +1,7 @@
 import { Category } from '../../model/Category';
 import { ICategoriesRepository } from '@modules/cars/repositories/ICategoriesRepository';
-import { Repository, getRepository } from 'typeorm';
-import { getManager } from 'typeorm';
+import { prisma } from '../../../../Shared/infra/Prisma/Client/Client';
+
 //Renomeação 
 
 //Singleton Pattern -> Criação de uma única Instância Global 
@@ -11,42 +11,49 @@ import { getManager } from 'typeorm';
 
 class CategoriesRepository implements ICategoriesRepository {
 
-  private repository: Repository<Category>;
-  //Acesso Private restrito apenas a esta classe;
+  constructor(private repository: typeof prisma) { }
 
-  constructor() {
+  private static INSTANCE: CategoriesRepository;
 
-    this.repository = getRepository(Category);
+  static getInstance(): CategoriesRepository {
+
+    if (!CategoriesRepository.INSTANCE) {
+
+      CategoriesRepository.INSTANCE = new CategoriesRepository(prisma);
+
+    }
+
+    return CategoriesRepository.INSTANCE;
 
   }
 
   async create(name: string, description: string): Promise<void> {
 
-    //INSERT name, description INTO categories VALUES ("name", "description", "created_at")
-    const category = await this.repository.create({
+    await this
+      .repository
+      .category
+      .create({ data: { name, description } });
 
-      name,
-      description
-    });
-
-    await this.repository.save(category);
   }
 
   async list(): Promise<Category[]> {
 
-    //SELECT * FROM categories
-    const findOneCategory = await this
+    const findAllCategories = await this
       .repository
-      .find();
-    return findOneCategory;
+      .category
+      .findMany();
+
+    return findAllCategories;
   }
 
-  async findOneCategory(name: String): Promise<Category> {
+  async findOneCategory(name: string): Promise<Category> {
 
-    const category = await this
+    const findOneCategory = await this
       .repository
-      .findOne({ where: { name: name } });
-    return category;
+      .category
+      .findUnique({ where: { name: name } });
+
+    return findOneCategory;
   }
 
 }

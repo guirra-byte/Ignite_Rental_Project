@@ -1,4 +1,4 @@
-import { AppError } from '../../../../Errors/AppError';
+import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 import { Category } from '../../model/Category';
 import { ICategoriesRepository } from '../ICategoriesRepository';
 

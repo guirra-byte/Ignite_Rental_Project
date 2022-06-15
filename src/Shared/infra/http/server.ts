@@ -1,17 +1,15 @@
-import 'reflect-metadata';
+import { app } from '../../../app';
+import { Request, Response, NextFunction } from 'express';
+
 import "express-async-errors";
-import "../Database";
-import './Shared/Container/index';
 
 import SwaggerUiOptions from 'swagger-ui-express';
 import swaggerFile from '../../../swagger.json';
-
-import { app } from 'app';
 import { AppError } from './Errors/AppError';
-import { Request, Response, NextFunction } from 'express';
 
 import { categoriesRoutes } from './routes/Categories.routes';
 import { specificationsRoutes } from './routes/Specifications.routes';
+
 import { userRoutes } from './routes/User.routes';
 import { authRoutes } from './routes/AuthUsers.routes';
 
@@ -38,12 +36,12 @@ app.use((err: Error, request: Request, response: Response, next: NextFunction) =
 
   return response
     .status(500)
-    .json({ message: `Internal server error - ${err.message}` })
+    .json({ message: `Internal Server Error - :${err.message}` });
 })
 
 app
   .listen(1102, () => {
 
-    console.log("O server já está rodando --- 🎃😎🤩");
+    console.log("O Server já está rodando --- 🎃😎🤩");
 
   });

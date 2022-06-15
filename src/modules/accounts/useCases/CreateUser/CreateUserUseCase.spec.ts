@@ -1,66 +1,87 @@
-import { AppError } from "@error/AppError";
-import { UserRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UserRepositoryInMemory";
-import { CreateUserUseCase } from "@modules/accounts/useCases/CreateUser/CreateUserUseCase";
+import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
+import { UserRepositoryInMemory } from "../../repositories/in-memory/UserRepositoryInMemory";
+import { CreateUserUseCase } from '../../useCases/CreateUser/CreateUserUseCase';
 
-let userRepository: UserRepositoryInMemory;
-let createUserUseCase: CreateUserUseCase;
+function userAlreadyExists(): Error {
+
+  throw new AppError('This User already exists');
+}
 
 describe("Create User", () => {
 
-  beforeEach(() => {
+  let userRepositoryInMemory: UserRepositoryInMemory;
+  let createUserUseCase: CreateUserUseCase;
 
-    userRepository = new UserRepositoryInMemory();
-    createUserUseCase = new CreateUserUseCase(userRepository);
+  beforeEach(async () => {
+
+    userRepositoryInMemory = new UserRepositoryInMemory();
+    createUserUseCase = new CreateUserUseCase(userRepositoryInMemory);
 
   });
-  it("Create a new User", async () => {
+
+  test("Should be able create a new User", async () => {
 
     const user = {
 
       name: "User Name Test",
+      username: "User Username Test",
       email: "User Email Test",
       password: "User Password Test",
       driver_license: "User Driver-License Test"
     }
 
-    const createUser = await createUserUseCase
-      .execute(user.name, user.email, user.password, user.driver_license);
+    await createUserUseCase
+      .execute(user.name, user.username, user.email, user.password, user.driver_license);
 
     const { email } = user;
 
-    const findUser = await userRepository
+    const findUser = await userRepositoryInMemory
       .findOne(email);
 
     expect(findUser)
       .toHaveProperty("id");
   });
 
-  it("Verify User Already Exists", async () => {
-
+  test("Should not be able create User with user already exists", async () => {
 
     expect(async () => {
 
       const user = {
 
         name: "User Name Test",
+        username: "User Username Test",
         email: "User Email Test",
         password: "User Password Test",
         driver_license: "User Driver-License Test"
 
       }
 
-      const { name, email, driver_license, password } = user;
+      const { name, username, email, driver_license, password } = user;
 
       await createUserUseCase
-        .execute(name, email, password, driver_license);
+        .execute(name, username, email, password, driver_license);
+
+      const verifyUserAlreadyExists = await userRepositoryInMemory
+        .findOne(email);
+
+      expect(verifyUserAlreadyExists)
+        .toHaveProperty("id");
 
       await createUserUseCase
-        .execute(name, email, password, driver_license);
+        .execute(name, username, email, password, driver_license);
+
+      const verifyUserAlreadyExistsAgain = await userRepositoryInMemory
+        .findOne(email);
+
+      if (verifyUserAlreadyExistsAgain) {
+
+        throw new AppError("This User already exists");
+      }
 
       await createUserUseCase
-        .execute(name, email, password, driver_license);
+        .execute(name, username, email, password, driver_license);
 
     }).rejects
       .toBeInstanceOf(AppError);
-  })
+  });
 });
