@@ -8,11 +8,9 @@ import { VerifyUserAuthToken } from '../Middleware/Token/Auth';
 // ---- ** ----
 
 // ---- Instanciação dos UseCases ----
-import { CreateCategoryInstanceIndex } from '@modules/cars/useCases/createCategory';
-import { FindOneCategoryInstanceIndex } from '@modules/cars/useCases/findOneCategory';
-import { ListCategoryInstanceIndex } from '@modules/cars/useCases/listCategory';
-import { CreateCategoriesImportImagesController }
-  from '@modules/cars/useCases/createCategoriesImportImages/createCategoriesImportImagesController';
+import { CreateCategoryInstanceIndex } from '../../../../modules/cars/useCases/createCategory/index';
+import { FindOneCategoryInstanceIndex } from '../../../../modules/cars/useCases/findOneCategory/index';
+import { ListCategoryInstanceIndex } from '../../../../modules/cars/useCases/listCategory/index';
 // ---- ** ----
 
 const categoriesRoutes = Router();
@@ -31,16 +29,17 @@ categoriesRoutes.get('/', (request, response) => {
   return ListCategoryInstanceIndex(request, response);
 });
 
-// categoriesRoutes.post('/import', upload.single('file'), verifyCategoryAlreadyExists, (request, response) => {
-
-//   return
-// });
-
 categoriesRoutes.get('/:name', (request, response) => {
 
   return FindOneCategoryInstanceIndex(request, response);
 }
 );
+
+// categoriesRoutes.post('/import', upload.single('file'), verifyCategoryAlreadyExists, (request, response) => {
+
+//   return
+// });
+
 
 
 export { categoriesRoutes }

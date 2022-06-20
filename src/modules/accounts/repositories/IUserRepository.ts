@@ -8,5 +8,6 @@ export interface IUserRepository {
   findAll(): Promise<User[]>
   findById(sub: string): Promise<User>
   verifyUserIsAdmin(sub: string): Promise<User | undefined>
+  updateAdminProp(sub: string): Promise<void>
 
 }

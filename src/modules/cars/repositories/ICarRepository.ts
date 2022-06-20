@@ -9,6 +9,7 @@ export interface ICarRequestProps {
   license_plate: string
   fine_amount: string
   brand: string
+  category_id: string
 
 }
 

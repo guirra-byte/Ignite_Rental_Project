@@ -1,5 +1,5 @@
 import { CreateCategoryUseCase } from './CreateCategoryUseCase';
-import { CategoriesRepositoryInMemory } from '../../repositories/in-memory/CategoryRepositoryInMemory';
+import { CategoryRepositoryInMemory } from '../../repositories/in-memory/CategoryRepositoryInMemory';
 
 import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 
@@ -7,13 +7,13 @@ import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 //Testagem de parte da aplicação;
 
 let createCategoryUseCase: CreateCategoryUseCase;
-let categoriesRepository: CategoriesRepositoryInMemory;
+let categoriesRepository: CategoryRepositoryInMemory;
 
 describe("Create new Category", () => {
 
   beforeEach(() => {
 
-    categoriesRepository = new CategoriesRepositoryInMemory();
+    categoriesRepository = new CategoryRepositoryInMemory();
     createCategoryUseCase = new CreateCategoryUseCase(categoriesRepository);
 
   });

@@ -56,10 +56,15 @@ model Car {
   license_plate  String   @unique
   fine_amount    String
   brand          String
-  category_id    String?
   created_at     DateTime @default(now())
-  fk_category_id Category @relation(fields: [categoryId], references: [id])
-  categoryId     String
+  fk_category_id Category @relation(fields: [category_id], references: [id])
+  category_id    String
+
 
   @@map("cars")
 }
+
+//Relacionamento entre Car e Category
+//É um relacionamento Many to One;
+//Podemos concluir que Uma Category pode conter vários Cars;
+//Mas um Car só pode pertencer apenas a uma Category;

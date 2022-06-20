@@ -2,7 +2,7 @@ import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 import { Category } from '../../model/Category';
 import { ICategoriesRepository } from '../ICategoriesRepository';
 
-export class CategoriesRepositoryInMemory implements ICategoriesRepository {
+export class CategoryRepositoryInMemory implements ICategoriesRepository {
 
   private categories: Category[] = [];
 

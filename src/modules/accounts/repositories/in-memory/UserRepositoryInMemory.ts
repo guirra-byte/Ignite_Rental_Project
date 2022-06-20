@@ -69,7 +69,7 @@ export class UserRepositoryInMemory implements IUserRepository {
       .find((user) => user.id === sub);
 
     console
-    .log(verifyUserAdminProp);
+      .log(verifyUserAdminProp);
 
     if (verifyUserAdminProp.isAdmin) {
 
@@ -77,5 +77,17 @@ export class UserRepositoryInMemory implements IUserRepository {
     }
 
     return undefined;
+  }
+
+  async updateAdminProp(sub: string): Promise<void> {
+
+    const findUser = await this
+      .repository
+      .find((user) => user.id === sub);
+
+    if (findUser.isAdmin === false) {
+
+      findUser.isAdmin = true;
+    }
   }
 }

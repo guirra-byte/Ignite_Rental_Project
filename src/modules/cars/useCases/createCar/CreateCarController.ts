@@ -7,11 +7,11 @@ export class CreateCarController {
 
   async handle(request: Request, response: Response) {
 
-    const { name, description, daily_rate, available, license_plate, fine_amount, brand } = request.body;
+    const { name, description, daily_rate, available, license_plate, fine_amount, brand, category_id } = request.body;
 
     try {
 
-      const props = { name, description, daily_rate, available, license_plate, fine_amount, brand };
+      const props = { name, description, daily_rate, available, license_plate, fine_amount, brand, category_id };
 
       await this
         .createCarUseCase

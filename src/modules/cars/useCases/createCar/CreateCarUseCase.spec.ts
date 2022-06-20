@@ -1,14 +1,19 @@
-import { ICarRequestProps } from '../../repositories/ICarRepository'
-import { CreateCarUseCase } from './CreateCarUseCase';
-import { CarRepositoryInMemory } from '../../repositories/in-memory/CarRepositoryInMemory';
-
-import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 import { UserRepositoryInMemory } from '../../../accounts/repositories/in-memory/UserRepositoryInMemory';
+import { CarRepositoryInMemory } from '../../repositories/in-memory/CarRepositoryInMemory';
+import { CategoryRepositoryInMemory } from '../../repositories/in-memory/CategoryRepositoryInMemory';
+
+import { CreateCarUseCase } from './CreateCarUseCase';
+import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
+
 import { ICreateUserDTO } from '../../../accounts/Services/Data/ICreateUserDTO';
+import { ICarRequestProps } from '../../repositories/ICarRepository';
+import { Category } from '../../model/Category';
 
 describe("Create a new Car", () => {
 
   let createCarUseCase: CreateCarUseCase;
+
+  let categoryRepositoryInMemory: CategoryRepositoryInMemory;
   let carRepositoryInMemory: CarRepositoryInMemory;
   let userRepositoryInMemory: UserRepositoryInMemory;
 
@@ -16,11 +21,29 @@ describe("Create a new Car", () => {
 
     carRepositoryInMemory = new CarRepositoryInMemory();
     userRepositoryInMemory = new UserRepositoryInMemory();
+    categoryRepositoryInMemory = new CategoryRepositoryInMemory();
+
     createCarUseCase = new CreateCarUseCase(carRepositoryInMemory);
 
   });
 
   test("Should be able create a new Car", async () => {
+
+    async function createCategoryAndGetAllProps({ name, description }): Promise<Category> {
+
+      await categoryRepositoryInMemory
+        .create(name, description);
+
+      const findCategoryProps = await categoryRepositoryInMemory
+        .findOneCategory(name);
+
+      return findCategoryProps;
+    }
+
+    const category1 = await createCategoryAndGetAllProps({
+      name: "SUV",
+      description: "Carro robusto para altas kilometragens"
+    });
 
     const car: ICarRequestProps = {
 
@@ -30,7 +53,8 @@ describe("Create a new Car", () => {
       available: true,
       license_plate: "ABC-1234",
       fine_amount: "fine_amount",
-      brand: "Volks"
+      brand: "Volks",
+      category_id: category1.id
     }
 
     const { name } = car;
@@ -49,6 +73,22 @@ describe("Create a new Car", () => {
 
     expect(async () => {
 
+      async function createCategoryAndGetAllProps({ name, description }): Promise<Category> {
+
+        await categoryRepositoryInMemory
+          .create(name, description);
+
+        const findCategoryProps = await categoryRepositoryInMemory
+          .findOneCategory(name);
+
+        return findCategoryProps;
+      }
+
+      const category1 = await createCategoryAndGetAllProps({
+        name: "SUV",
+        description: "Carro robusto para altas kilometragens"
+      });
+
       const firstCar: ICarRequestProps = {
 
         name: "Ranger Hover",
@@ -57,7 +97,8 @@ describe("Create a new Car", () => {
         available: true,
         license_plate: "ABC-1234",
         fine_amount: "fine_amount",
-        brand: "Brand"
+        brand: "Brand",
+        category_id: category1.id
       }
 
       await createCarUseCase
@@ -71,7 +112,8 @@ describe("Create a new Car", () => {
         available: true,
         license_plate: "ABC-1234",
         fine_amount: "fine_amount",
-        brand: "Volks"
+        brand: "Volks",
+        category_id: category1.id
       }
 
       const cars = { firstCar, secondCar };
@@ -109,11 +151,30 @@ describe("Create a new Car", () => {
     const findUserProps = await userRepositoryInMemory
       .findOne(user.email);
 
-    const verifyUserIsAdmin = await userRepositoryInMemory
-      .verifyUserIsAdmin(findUserProps.id);
+    await userRepositoryInMemory
+      .updateAdminProp(findUserProps.id);
 
-    expect(verifyUserIsAdmin.isAdmin)
+    const findUpdatedUser = await userRepositoryInMemory
+      .findOne(findUserProps.email);
+
+    expect(findUpdatedUser.isAdmin)
       .toBe(true);
+
+    async function createCategoryAndGetAllProps({ name, description }): Promise<Category> {
+
+      await categoryRepositoryInMemory
+        .create(name, description);
+
+      const findCategoryProps = await categoryRepositoryInMemory
+        .findOneCategory(name);
+
+      return findCategoryProps;
+    }
+
+    const category1 = await createCategoryAndGetAllProps({
+      name: "SUV",
+      description: "Carro robusto para altas kilometragens"
+    });
 
     const firstCar: ICarRequestProps = {
 
@@ -123,7 +184,8 @@ describe("Create a new Car", () => {
       available: true,
       license_plate: "Mabel_2022",
       fine_amount: "fine_amount",
-      brand: "Brand"
+      brand: "Brand",
+      category_id: category1.id
     }
 
     await carRepositoryInMemory
@@ -133,11 +195,27 @@ describe("Create a new Car", () => {
       .findByLicensePlate(firstCar.license_plate);
 
     expect(findCar)
-      .toHaveProperty("id");
+      .toHaveProperty('id');
 
   });
 
   test("Should be able create Car with your props available for true by default", async () => {
+
+    async function createCategoryAndGetAllProps({ name, description }): Promise<Category> {
+
+      await categoryRepositoryInMemory
+        .create(name, description);
+
+      const findCategoryProps = await categoryRepositoryInMemory
+        .findOneCategory(name);
+
+      return findCategoryProps;
+    }
+
+    const category1 = await createCategoryAndGetAllProps({
+      name: "SUV",
+      description: "Carro robusto para altas kilometragens"
+    });
 
     const car: ICarRequestProps = {
 
@@ -147,6 +225,7 @@ describe("Create a new Car", () => {
       license_plate: "Mabel_2022",
       fine_amount: "fine_amount",
       brand: "brand",
+      category_id: category1.id
     }
 
     await createCarUseCase
