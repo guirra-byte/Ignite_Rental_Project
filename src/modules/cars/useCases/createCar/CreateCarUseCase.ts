@@ -1,5 +1,5 @@
-import { ICarRepository } from "@modules/cars/repositories/ICarRepository";
-import { ICarRequestPropsDTO } from "@modules/cars/Services/Data/ICarRequestPropsDTO";
+import { ICarRepository } from "../../repositories/ICarRepository";
+import { ICarRequestPropsDTO } from "../../Services/Data/ICarRequestPropsDTO";
 
 export class CreateCarUseCase {
 

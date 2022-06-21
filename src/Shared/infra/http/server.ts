@@ -9,20 +9,26 @@ import { AppError } from './Errors/AppError';
 
 import { categoriesRoutes } from './routes/Categories.routes';
 import { specificationsRoutes } from './routes/Specifications.routes';
+import { carRoutes } from './routes/Car.routes';
 
 import { userRoutes } from './routes/User.routes';
 import { authRoutes } from './routes/AuthUsers.routes';
 
-
-app.use("/api-docs", SwaggerUiOptions.serve, SwaggerUiOptions.setup(swaggerFile));
-
-app.use("/categories", categoriesRoutes);
-
+// ---- Car Routes ----
+app.use('/car', carRoutes);
+app.use('/categories', categoriesRoutes);
 app.use('/specifications', specificationsRoutes);
+// ---- ** ----
 
+// ---- User Routes ----
 app.use('/user', userRoutes);
-
 app.use(authRoutes);
+app.use(userRoutes);
+// ---- ** ----
+
+app.use('/api-docs', SwaggerUiOptions.serve, SwaggerUiOptions.setup(swaggerFile));
+
+
 
 app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
 

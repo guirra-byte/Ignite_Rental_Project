@@ -1,5 +1,5 @@
 import { Category } from '../../model/Category';
-import { ICategoriesRepository } from '@modules/cars/repositories/ICategoriesRepository';
+import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
 import { prisma } from '../../../../Shared/infra/Prisma/Client/Client';
 
 //Renomeação 

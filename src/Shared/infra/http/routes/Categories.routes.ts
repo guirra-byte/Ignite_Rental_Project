@@ -4,7 +4,8 @@ import multer from 'multer';
 
 // ---- Middlewares ----
 import { verifyCategoryAlreadyExists } from '../Middleware/indexController';
-import { VerifyUserAuthToken } from '../Middleware/Token/Auth';
+import { VerifyUserAuthToken as ensureAuthToken } from '../Middleware/Token/Auth';
+import { ensureAdmin } from '../Middleware/VerifyUserIsAdmin';
 // ---- ** ----
 
 // ---- Instanciação dos UseCases ----
@@ -19,7 +20,7 @@ const upload = multer({
   dest: './tmp'
 });
 
-categoriesRoutes.post('/', VerifyUserAuthToken, verifyCategoryAlreadyExists, (request, response) => {
+categoriesRoutes.post('/', ensureAuthToken, ensureAdmin, verifyCategoryAlreadyExists, (request, response) => {
 
   return CreateCategoryInstanceIndex(request, response);
 });

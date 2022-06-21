@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import "../Shared/Container/index";
-
-import { AuthUserController } from '@modules/accounts/useCases/Token/Auth/AuthUserController';
+import { EnsureUserAuthInstanceIndex } from '../../../../modules/accounts/useCases/Token/Auth/index';
 
 const authRoutes = Router();
 
-const createAuthTokenUserController = new AuthUserController();
-authRoutes.post('/session', createAuthTokenUserController.handle);
+authRoutes.post('/session', (request, response) => {
+
+  return EnsureUserAuthInstanceIndex(request, response);
+});
 
 
 export { authRoutes }

@@ -1,11 +1,8 @@
-import "reflect-metadata";
-import { IUserRepository } from '@modules/accounts/repositories/IUserRepository';
-import { inject, injectable } from 'tsyringe';
-import { compare } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
-
+import { IUserRepository } from '../../../repositories/IUserRepository';
 import { AppError } from '../../../../../Shared/infra/http/Errors/AppError';
 
+import { compare } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
 
 interface IAuthUserRequestProps {
 
@@ -17,18 +14,17 @@ interface IRequestReturnProps {
 
   user: {
     name: string,
-    email: string
+    email: string,
+    id: string
   },
   token: string
 }
 
-export const passwordKey = "f750766d2e4617e94eb4f943625ceeaa"
+export const passwordKey = "f750766d2e4617e94eb4f943625ceeaa";
 
-@injectable()
 export class AuthUserUseCase {
 
   constructor(
-    @inject("UserRepository")
     private userRepository: IUserRepository) { }
 
   async execute({ email, password }: IAuthUserRequestProps): Promise<IRequestReturnProps> {
@@ -58,7 +54,11 @@ export class AuthUserUseCase {
     const tokenReturn: IRequestReturnProps = {
 
       token,
-      user: { name: user.name, email: user.email }
+      user: {
+        name: user.name,
+        email: user.email,
+        id: user.id
+      }
     }
 
     return tokenReturn;

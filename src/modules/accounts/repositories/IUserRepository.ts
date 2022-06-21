@@ -1,5 +1,5 @@
-import { User } from "@modules/accounts/model/User";
-import { ICreateUserDTO } from "@modules/accounts/Services/Data/ICreateUserDTO";
+import { User } from "../model/User";
+import { ICreateUserDTO } from "../Services/Data/ICreateUserDTO";
 
 export interface IUserRepository {
 

@@ -1,6 +1,6 @@
 import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
 import { Category } from "../../model/Category";
-import { AppError } from "Shared/infra/http/Errors/AppError";
+import { AppError } from "../../../../Shared/infra/http/Errors/AppError";
 
 export class FindOneCategoryUseCase {
 

@@ -1,11 +1,12 @@
 import { response, Router } from 'express';
-import "../Shared/Container/index";
 
-import { CreateSpecificationController } from '@modules/cars/useCases/createSpecification/CreateSpecificationController';
+import { CreateSpecificationInstanceIndex } from '../../../../modules/cars/useCases/createSpecification/index';
 
+const specificationsRoutes = Router();
 
-export const specificationsRoutes = Router();
+specificationsRoutes.post('/', (request, response) => {
 
-const createSpecificationController = new CreateSpecificationController();
+  return CreateSpecificationInstanceIndex(request, response);
+});
 
-specificationsRoutes.post('/', createSpecificationController.handle);
+export { specificationsRoutes }

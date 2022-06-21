@@ -1,25 +1,31 @@
 import { response, Router } from 'express';
 
 import multer from 'multer';
-import "../Shared/Container/index";
 
-import { VerifyUserAuthToken } from '../Middleware/Token/Auth';
+import { VerifyUserAuthToken as ensureAuthToken } from '../Middleware/Token/Auth';
 import Upload from "../../../../Config/Upload/Upload";
 
-import { CreateUserController } from '@modules/accounts/useCases/CreateUser/CreateUserController';
-import { UpdateUserAvatarController } from '@modules/accounts/useCases/UpdateUserAccount/UpdateUserAvatarController';
+import { CreateUserInstanceIndex } from '../../../../modules/accounts/useCases/CreateUser/index';
+import { UpdateUserAvatarController } from '../../../../modules/accounts/useCases/UpdateUserAccount/UpdateUserAvatarController';
+import { FindOneUserInstanceIndex } from '../../../../modules/accounts/useCases/FindOneUser/index';
 
 const userRoutes = Router();
 
 const uploadAvatar = multer(Upload.upload("./tmp/avatar"));
 
-const createUserController = new CreateUserController();
+userRoutes.post('/', (request, response) => {
 
-userRoutes.post('/', createUserController.handle);
+  return CreateUserInstanceIndex(request, response);
+});
 
-const updateUserAvatarController = new UpdateUserAvatarController();
+userRoutes.get('/:email', (request, response) => {
 
-userRoutes.patch('/changeAvatar', VerifyUserAuthToken, uploadAvatar
-  .single("avatar"), updateUserAvatarController.handle);
+  return FindOneUserInstanceIndex(request, response);
+})
+
+// const updateUserAvatarController = new UpdateUserAvatarController();
+
+// userRoutes.patch('/changeAvatar', ensureAuthToken, uploadAvatar
+//   .single("avatar"), updateUserAvatarController.handle);
 
 export { userRoutes };

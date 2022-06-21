@@ -1,4 +1,4 @@
-import { IUserRepository } from "@modules/accounts/repositories/IUserRepository";
+import { IUserRepository } from "../../repositories/IUserRepository";
 import { hash } from "bcryptjs";
 import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 

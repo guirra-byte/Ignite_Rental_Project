@@ -16,7 +16,7 @@
 
 **Requisitos Funcionais: Listagem de Carros**
 
-- [] Deve ser possível litar todos os carros disponíveis;
+- [] Deve ser possível listar todos os carros disponíveis;
 - [] Deve ser possível listar todos os carros disponíveis pelo nome da Category;
 - [] Deve ser possível listar todos os carros disponíveis pelo nome da Marca;
 - [] Deve ser possível listar todos os carros disponíveis pelo nome do Carro;

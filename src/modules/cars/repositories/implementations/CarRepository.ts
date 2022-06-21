@@ -1,6 +1,6 @@
 import { ICarRepository, ICarRequestProps } from "../ICarRepository";
-import { prisma } from "Shared/infra/Prisma/Client/Client";
-import { Car } from "@modules/cars/model/Car";
+import { prisma } from "../../../../Shared/infra/Prisma/Client/Client";
+import { Car } from "../../model/Car";
 
 export class CarRepository implements ICarRepository {
 

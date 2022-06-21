@@ -70,4 +70,15 @@ export class UserRepository implements IUserRepository {
       return findUser;
     }
   }
+
+  async updateAdminProp(sub: string): Promise<void> {
+
+    await this
+      .repository
+      .user
+      .update({
+        where: { id: sub },
+        data: { isAdmin: true }
+      });
+  }
 }

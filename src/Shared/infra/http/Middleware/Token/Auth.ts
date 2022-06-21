@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import { verify } from 'jsonwebtoken';
 
-import { UserRepository } from '@modules/accounts/repositories/implementations/UserRepository';
+import { UserRepository } from '../../../../../modules/accounts/repositories/implementations/UserRepository';
 import { AppError } from '../../Errors/AppError';
 
 interface IPayloadProps {
@@ -12,16 +12,16 @@ interface IPayloadProps {
   sub: string
 }
 
-export async function VerifyUserAuthToken(request: Request, response: Response, next: NextFunction) {
+const VerifyUserAuthToken = async (request: Request, response: Response, next: NextFunction) => {
 
   const bearerToken = request.headers.authorization;
 
   if (!bearerToken) {
 
-    throw new AppError("Token is missing!");
+    throw new AppError("Token is missing!", 400);
   }
 
-  const token = bearerToken.split(" ");
+  const token = await bearerToken.split(" ");
   const authToken = token[1];
 
   try {
@@ -47,9 +47,12 @@ export async function VerifyUserAuthToken(request: Request, response: Response, 
     }
 
     next();
+
   }
   catch (exception) {
 
     throw new AppError("Token are invalid!");
   }
 }
+
+export { VerifyUserAuthToken }  

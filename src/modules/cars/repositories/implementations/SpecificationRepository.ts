@@ -2,7 +2,7 @@ import { specification as Specification } from "../../model/Specification";
 import { ICreateSpecificationDTO } from "../../Services/Data/ICreateSpecificationDTO";
 import { ISpecificationsRepository } from "../ISpecificationRepository";
 
-import { prisma } from "Shared/infra/Prisma/Client/Client";
+import { prisma } from "../../../../Shared/infra/Prisma/Client/Client";
 
 
 export class SpecificationRepository implements ISpecificationsRepository {

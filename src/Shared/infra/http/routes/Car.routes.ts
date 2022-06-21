@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
-import { verifyUserIsAdmin } from '../Middleware/VerifyUserIsAdmin';
+import { ensureAdmin } from '../Middleware/VerifyUserIsAdmin';
+import { VerifyUserAuthToken as ensureAuthToken } from '../Middleware/Token/Auth';
 
 import { CreateCarInstanceIndex } from '../../../../modules/cars/useCases/createCar/index';
 import { FindOneCarInstanceIndex } from '../../../../modules/cars/useCases/findOneCar/index';
@@ -9,7 +10,7 @@ import { VerifyCarLicensePlateAlreadyExists as verifyCarLicensePlateAlreadyExist
 
 const carRoutes = Router();
 
-carRoutes.post('/', verifyUserIsAdmin, verifyCarLicensePlateAlreadyExists, (request, response) => {
+carRoutes.post('/', ensureAuthToken, ensureAdmin, verifyCarLicensePlateAlreadyExists, (request, response) => {
 
   return CreateCarInstanceIndex(request, response);
 });

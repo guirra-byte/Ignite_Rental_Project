@@ -1,4 +1,4 @@
-import { CarRepository } from "@modules/cars/repositories/implementations/CarRepository";
+import { CarRepository } from "../../repositories/implementations/CarRepository";
 import { CreateCarUseCase } from "./CreateCarUseCase";
 import { CreateCarController } from "./CreateCarController";
 
