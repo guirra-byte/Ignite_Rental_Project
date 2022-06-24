@@ -2,13 +2,13 @@ import { Router } from 'express';
 import multer from 'multer';
 
 
-// ---- Middlewares ----
+// ---- Importação dos Middlewares ----
 import { verifyCategoryAlreadyExists } from '../Middleware/indexController';
 import { VerifyUserAuthToken as ensureAuthToken } from '../Middleware/Token/Auth';
 import { ensureAdmin } from '../Middleware/VerifyUserIsAdmin';
 // ---- ** ----
 
-// ---- Instanciação dos UseCases ----
+// ---- Importação dos Controllers ----
 import { CreateCategoryInstanceIndex } from '../../../../modules/cars/useCases/createCategory/index';
 import { FindOneCategoryInstanceIndex } from '../../../../modules/cars/useCases/findOneCategory/index';
 import { ListCategoryInstanceIndex } from '../../../../modules/cars/useCases/listCategory/index';

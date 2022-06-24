@@ -29,7 +29,10 @@ model Specifications {
   description String
   created_at  DateTime @default(now())
 
-  car Car[]
+  CarEspecification CarSpecification[]
+  Car               Car                @relation(fields: [car_id], references: [id])
+  car_id            String             @unique
+
 
   @@map("specification")
 }
@@ -63,9 +66,33 @@ model Car {
   fk_category_id Category @relation(fields: [category_id], references: [id])
   category_id    String
 
-  specifications Specifications[]
+  CarSpecification CarSpecification[]
+  Specifications   Specifications[]
+  CarImages        CarImages[]
 
   @@map("cars")
+}
+
+model CarImages {
+
+  id         String   @id @default(uuid())
+  image_name String
+  car_id     String
+  car        Car      @relation(fields: [car_id], references: [id])
+  created_at DateTime @default(now())
+
+  @@map("carImages")
+}
+
+model CarSpecification {
+
+  car_id           String         @unique
+  car              Car            @relation(fields: [car_id], references: [id])
+  specification_id String         @unique
+  specification    Specifications @relation(fields: [specification_id], references: [id])
+
+  @@id([car_id, specification_id])
+  @@map("car_specification")
 }
 
 //Relacionamento entre Car e Category

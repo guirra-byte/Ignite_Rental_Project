@@ -1,4 +1,4 @@
-import { IUserRepository } from "@modules/accounts/repositories/IUserRepository";
+import { IUserRepository } from "../../repositories/IUserRepository";
 import { deleteFile } from '../../../../Utils/File';
 
 interface IUserUploadProps {

@@ -3,6 +3,7 @@ import { ICreateSpecificationDTO } from "../../Services/Data/ICreateSpecificatio
 import { ISpecificationsRepository } from "../ISpecificationRepository";
 
 import { prisma } from "../../../../Shared/infra/Prisma/Client/Client";
+import { Specifications } from "@prisma/client";
 
 
 export class SpecificationRepository implements ISpecificationsRepository {
@@ -30,7 +31,7 @@ export class SpecificationRepository implements ISpecificationsRepository {
       .create({
         data: {
           name, description,
-          car: { connect: { id: car_id } }
+          Car: { connect: { id: car_id } }
         }
       });
   }
@@ -42,7 +43,7 @@ export class SpecificationRepository implements ISpecificationsRepository {
       .specifications
       .findUnique({
         where: { name: name },
-        include: { car: true }
+        include: { Car: true }
       });
 
     return findUniqueSpecification;
@@ -53,19 +54,23 @@ export class SpecificationRepository implements ISpecificationsRepository {
     const findAllSpecifications = await this
       .repository
       .specifications
-      .findMany({ include: { car: true } });
+      .findMany({ include: { Car: true } });
 
     return findAllSpecifications;
   }
 
   async findById(ids: string[]): Promise<Specification[]> {
 
-    const findAllSpecificationsById = await this
-      .repository
+    const findAll = await this.
+      repository
       .specifications
-      .findMany({ include: { car: true } });
+      .findMany();
 
-    return findAllSpecificationsById;
+    const compareById = findAll
+      .filter(async (specification) =>
+        (ids.map(async (id) => (id && specification.id === id))));
+
+    return compareById;
 
   }
 }

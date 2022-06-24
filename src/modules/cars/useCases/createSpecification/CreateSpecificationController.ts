@@ -7,13 +7,13 @@ export class CreateSpecificationController {
 
   async handle(request: Request, response: Response): Promise<Response> {
 
-    const { name, description, car } = request.body;
+    const { name, description, car_id } = request.body;
 
     try {
 
       await this
         .createSpecificationUseCase
-        .execute({ name, description, car });
+        .execute({ name, description, car_id });
 
       return response
         .send()
@@ -23,7 +23,7 @@ export class CreateSpecificationController {
 
       return response
         .status(400)
-        .json("Deu erro aqui");
+        .json({ message: exception });
     }
 
   }
