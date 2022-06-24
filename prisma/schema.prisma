@@ -17,7 +17,8 @@ model Category {
   description String
   created_at  DateTime @default(now())
 
-  Car Car[]
+  car Car[]
+
   @@map("category")
 }
 
@@ -27,6 +28,8 @@ model Specifications {
   name        String   @unique
   description String
   created_at  DateTime @default(now())
+
+  car Car[]
 
   @@map("specification")
 }
@@ -60,6 +63,7 @@ model Car {
   fk_category_id Category @relation(fields: [category_id], references: [id])
   category_id    String
 
+  specifications Specifications[]
 
   @@map("cars")
 }
@@ -68,3 +72,9 @@ model Car {
 //É um relacionamento Many to One;
 //Podemos concluir que Uma Category pode conter vários Cars;
 //Mas um Car só pode pertencer apenas a uma Category;
+
+//Relacionamento entre Car e Specification
+//É um relacionamento Many to Many;
+//Onde podemos concluir que um Carro
+//pode conter inúmeras especificações
+//E uma Specificação pode conter inúmeros Carros

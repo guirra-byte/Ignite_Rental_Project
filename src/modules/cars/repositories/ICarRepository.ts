@@ -1,4 +1,4 @@
-import { Car } from "../model/Car"
+import { Car } from "../model/Car";
 
 export interface ICarRequestProps {
 
@@ -10,6 +10,7 @@ export interface ICarRequestProps {
   fine_amount: string
   brand: string
   category_id: string
+  specification_id?: string[]
 
 }
 
@@ -19,5 +20,7 @@ export interface ICarRepository {
   findOneCar(name: string): Promise<Car>
   findAllCars(): Promise<Car[]>
   findByLicensePlate(license_plate: string): Promise<Car>
+  findAvailable(brand?: string, category_id?: string, name?: string): Promise<Car[]>
+  findById(id: string): Promise<Car>
 
 }

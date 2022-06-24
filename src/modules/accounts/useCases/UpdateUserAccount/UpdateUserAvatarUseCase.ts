@@ -1,7 +1,5 @@
 import { IUserRepository } from "@modules/accounts/repositories/IUserRepository";
-import { inject, injectable } from 'tsyringe';
 import { deleteFile } from '../../../../Utils/File';
-
 
 interface IUserUploadProps {
 
@@ -9,16 +7,15 @@ interface IUserUploadProps {
   avatarFile: string;
 }
 
-@injectable()
 export class UpdateUserAvatarUseCase {
 
-  constructor(
-    @inject("UserRepository")
-    private userRepository: IUserRepository) { }
+  constructor(private userRepository: IUserRepository) { }
 
   async execute({ user_id, avatarFile }: IUserUploadProps): Promise<void> {
 
-    const user = await this.userRepository.findById(user_id);
+    const user = await this
+      .userRepository
+      .findById(user_id);
 
     if (user.avatar) {
 
@@ -27,7 +24,9 @@ export class UpdateUserAvatarUseCase {
     }
     user.avatar = avatarFile;
 
-    await this.userRepository.create(user);
+    await this
+      .userRepository
+      .create(user);
 
   }
 }

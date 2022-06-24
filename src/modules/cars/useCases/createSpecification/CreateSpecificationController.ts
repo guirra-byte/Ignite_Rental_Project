@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { container } from 'tsyringe';
 import { CreateSpecificationsUseCase } from './CreateSpecificationUseCase';
 
 export class CreateSpecificationController {
@@ -8,13 +7,13 @@ export class CreateSpecificationController {
 
   async handle(request: Request, response: Response): Promise<Response> {
 
-    const { name, description } = request.body;
+    const { name, description, car } = request.body;
 
     try {
 
       await this
         .createSpecificationUseCase
-        .execute({ name, description });
+        .execute({ name, description, car });
 
       return response
         .send()

@@ -22,22 +22,28 @@ export class SpecificationRepository implements ISpecificationsRepository {
 
   }
 
-  async create({ name, description }: ICreateSpecificationDTO): Promise<void> {
+  async create({ name, description, car_id }: ICreateSpecificationDTO): Promise<void> {
 
     await this
       .repository
       .specifications
-      .create({ data: { name, description } });
-
+      .create({
+        data: {
+          name, description,
+          car: { connect: { id: car_id } }
+        }
+      });
   }
-
 
   async findByName(name: string): Promise<Specification> {
 
     const findUniqueSpecification = await this
       .repository
       .specifications
-      .findUnique({ where: { name: name } });
+      .findUnique({
+        where: { name: name },
+        include: { car: true }
+      });
 
     return findUniqueSpecification;
   }
@@ -47,8 +53,19 @@ export class SpecificationRepository implements ISpecificationsRepository {
     const findAllSpecifications = await this
       .repository
       .specifications
-      .findMany();
+      .findMany({ include: { car: true } });
 
     return findAllSpecifications;
+  }
+
+  async findById(ids: string[]): Promise<Specification[]> {
+
+    const findAllSpecificationsById = await this
+      .repository
+      .specifications
+      .findMany({ include: { car: true } });
+
+    return findAllSpecificationsById;
+
   }
 }

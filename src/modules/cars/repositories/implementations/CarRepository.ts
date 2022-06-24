@@ -19,15 +19,21 @@ export class CarRepository implements ICarRepository {
 
   async createCar(props: ICarRequestProps): Promise<void> {
 
-    const { name, description, daily_rate, available, license_plate, fine_amount, brand, category_id } = props;
+    const { name, description, daily_rate,
+      available, license_plate, fine_amount, brand, category_id } = props;
 
     await this
       .repository
       .car
       .create({
         data: {
-          name, description, daily_rate,
-          available, license_plate, fine_amount, brand,
+          name,
+          description,
+          daily_rate,
+          available,
+          license_plate,
+          fine_amount,
+          brand,
           fk_category_id: { connect: { id: category_id } }
         }
       });
@@ -61,5 +67,28 @@ export class CarRepository implements ICarRepository {
       .findUnique({ where: { license_plate: license_plate } });
 
     return findCarByLicensePlate;
+  }
+
+  async findAvailable(): Promise<Car[]> {
+
+    const findAllCarsAvailable = await this
+      .repository
+      .car
+      .findMany({ where: { available: true } });
+
+    return findAllCarsAvailable;
+
+  }
+
+  async findById(id: string): Promise<Car> {
+
+    const findCarById = await this
+      .repository
+      .car
+      .findUnique({
+        where: { id: id }
+      });
+
+    return findCarById;
   }
 }

@@ -1,10 +1,11 @@
-import { specification } from "../model/Specification";
+import { specification as Specification } from "../model/Specification";
 import { ICreateSpecificationDTO } from "../Services/Data/ICreateSpecificationDTO";
 
 export interface ISpecificationsRepository {
 
   create({ name, description }: ICreateSpecificationDTO): Promise<void>
-  findByName(name: string): Promise<specification>
-  findAllSpecifications(): Promise<specification[]>
+  findByName(name: string): Promise<Specification>
+  findAllSpecifications(): Promise<Specification[]>
+  findById(ids: string[]): Promise<Specification[]>
 
 }

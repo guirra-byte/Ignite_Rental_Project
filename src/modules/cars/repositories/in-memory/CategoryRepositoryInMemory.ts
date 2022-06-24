@@ -1,10 +1,14 @@
-import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 import { Category } from '../../model/Category';
 import { ICategoriesRepository } from '../ICategoriesRepository';
 
 export class CategoryRepositoryInMemory implements ICategoriesRepository {
 
-  private categories: Category[] = [];
+  private categories: Category[];
+
+  constructor() {
+
+    this.categories = [];
+  }
 
   async create(name: string, description: string): Promise<void> {
 
@@ -17,11 +21,12 @@ export class CategoryRepositoryInMemory implements ICategoriesRepository {
 
     const createCategory = new Category();
 
-    Object.assign(createCategory, {
+    Object
+      .assign(createCategory, {
 
-      name: category.name,
-      description: category.description
-    });
+        name: category.name,
+        description: category.description
+      });
 
     this
       .categories

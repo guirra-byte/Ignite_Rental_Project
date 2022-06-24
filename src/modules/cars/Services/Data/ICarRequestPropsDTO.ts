@@ -1,4 +1,4 @@
-
+import { specification as Specification } from '../../model/Specification';
 
 export interface ICarRequestPropsDTO {
 
@@ -10,4 +10,5 @@ export interface ICarRequestPropsDTO {
   fine_amount: string
   brand: string
   category_id: string
+  specification_id?: string[]
 }

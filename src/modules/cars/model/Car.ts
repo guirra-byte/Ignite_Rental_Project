@@ -1,4 +1,5 @@
 import { v4 as uuidV4 } from "uuid";
+import { specification as Specification } from './Specification';
 
 import { ICarRequestPropsDTO } from "../Services/Data/ICarRequestPropsDTO";
 
@@ -13,12 +14,16 @@ export class Car {
   brand: string
   created_at: Date
   id?: string
+  category_id?: string
+  specifications?: Specification[]
 
   constructor(props: ICarRequestPropsDTO, id?: string, available = true) {
 
     const newObject = {
 
       name: props.name,
+      category_id: props.category_id,
+      specification_id: props.specification_id,
       description: props.description,
       daily_rate: props.daily_rate,
       available: available,

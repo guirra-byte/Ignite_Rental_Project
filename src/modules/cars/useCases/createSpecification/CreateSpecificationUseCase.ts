@@ -1,19 +1,31 @@
 import { ISpecificationsRepository } from "../../repositories/ISpecificationRepository";
 import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
+import { Car } from '../../model/Car';
+import { ICarRepository } from "../../repositories/ICarRepository";
 
-interface IRequest {
+export interface IRequest {
   name: string,
-  description: string
+  description: string,
+  car_id: string
 }
 
 export class CreateSpecificationsUseCase {
 
-  constructor(
-    private specificationsRepository: ISpecificationsRepository) {
+  constructor(private specificationsRepository: ISpecificationsRepository,
+    private carRepository: ICarRepository) {
 
   }
 
-  async execute({ name, description }: IRequest): Promise<void> {
+  async execute({ name, description, car_id }: IRequest): Promise<void> {
+
+    const verifyCarExists = await this
+      .carRepository
+      .findById(car_id);
+
+    if (!verifyCarExists) {
+
+      throw new AppError("Car does exists");
+    }
 
     const verifySpecificationAlreadyExists = await this
       .specificationsRepository
@@ -28,7 +40,8 @@ export class CreateSpecificationsUseCase {
       .specificationsRepository
       .create({
         name,
-        description
+        description,
+        car_id
       });
 
     return createSpecifications;
