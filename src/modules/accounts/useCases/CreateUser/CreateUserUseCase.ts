@@ -8,7 +8,7 @@ export class CreateUserUseCase {
     private userRepository: IUserRepository
   ) { }
 
-  async execute(name: string, username: string, email: string, password: string, driver_license: string) {
+  async execute(name: string, username: string, email: string, password: string, driver_license: string): Promise<void> {
 
     const passwordHash = await hash(password, 8);
 
@@ -21,10 +21,20 @@ export class CreateUserUseCase {
       throw new AppError("User already exists!");
     }
 
-    const user = await this
-      .userRepository
-      .create({ name, username, email, password: passwordHash, driver_license });
+    console.log("Chegou aqui");
 
-    return user;
+    await this
+      .userRepository
+      .create({
+        name, username, email,
+        password: passwordHash, driver_license
+      });
+
+    const findUserTest = await this
+      .userRepository
+      .findOne(username);
+
+    console.log(findUserTest);
+
   }
 }

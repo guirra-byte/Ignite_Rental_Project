@@ -49,6 +49,11 @@ model User {
   created_at     DateTime @default(now())
   avatar         String?
 
+  //User pode ter várias Rentals;
+  //Várias Rentals, porém não Simultâneas;
+  Rentals       Rentals[]
+  UserRentalCar UserRentalCar[]
+
   @@map("user")
 }
 
@@ -66,9 +71,18 @@ model Car {
   fk_category_id Category @relation(fields: [category_id], references: [id])
   category_id    String
 
+  //Car Specification - Tabela Pivô de Relation;
   CarSpecification CarSpecification[]
   Specifications   Specifications[]
-  CarImages        CarImages[]
+
+  //Car Images - Carro pode conter várias Images;
+  CarImages CarImages[]
+
+  //User Rental Car Relation;
+  //Um Carro pode ter vários Rentals;
+  //Porém não podem ser Rentals Simultâneos;
+  Rentals       Rentals[]
+  UserRentalCar UserRentalCar[]
 
   @@map("cars")
 }
@@ -84,6 +98,8 @@ model CarImages {
   @@map("carImages")
 }
 
+//Tabela Pivô;
+//Implementação do Prisma Client em Declaração Explícita;
 model CarSpecification {
 
   car_id           String         @unique
@@ -93,6 +109,37 @@ model CarSpecification {
 
   @@id([car_id, specification_id])
   @@map("car_specification")
+}
+
+model Rentals {
+
+  id                 String    @id @default(uuid())
+  start_date         DateTime  @default(now())
+  end_date           DateTime?
+  expect_return_date DateTime
+  total              Int?
+  created_at         DateTime  @default(now())
+  updated_at         DateTime? @updatedAt
+
+  User    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
+  Car     Car    @relation(fields: [car_id], references: [id])
+  car_id  String @unique
+
+  @@map("rental")
+}
+
+//Tabela Pivô;
+//Implementação do Prisma Client em Declaração Explícita;
+model UserRentalCar {
+
+  car_id         String
+  fk_car_rental  Car    @relation(fields: [car_id], references: [id])
+  user_id        String
+  fk_user_rental User   @relation(fields: [user_id], references: [id])
+
+  @@id([car_id, user_id])
+  @@map("user_rental_car")
 }
 
 //Relacionamento entre Car e Category

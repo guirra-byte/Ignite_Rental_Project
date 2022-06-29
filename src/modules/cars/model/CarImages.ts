@@ -10,5 +10,6 @@ export class CarImages {
   constructor(id?: string) {
 
     this.id = id ?? uuidV4();
+    this.created_at = new Date();
   }
 }

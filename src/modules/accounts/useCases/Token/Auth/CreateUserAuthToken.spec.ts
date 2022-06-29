@@ -20,22 +20,12 @@ describe("Create User Auth Token", () => {
 
   test("Create User Auth Token", async () => {
 
-    const user = {
-
-      name: "User Name Test",
-      username: "User Username Test",
-      email: "User Email Test",
-      password: "User Password Test",
-      driver_license: "User Driver-License Test"
-    }
-
     await createUserUseCase
-      .execute(user.name, user.username, user.email, user.password, user.driver_license);
-
-    const { email, password } = user;
+      .execute("User Name Test", "User UserName Test",
+        "User@gmail.Test", "Mabel_22", "MABEL_2022");
 
     const createAuthToken = await createUserAuthToken
-      .execute({ email, password });
+      .execute({ email: "User@gmail.Test", password: "Mabel_22" });
 
     expect(createAuthToken)
       .toHaveProperty("token");
@@ -45,16 +35,8 @@ describe("Create User Auth Token", () => {
 
     expect(async () => {
 
-      const user = {
-
-        email: "User Email Test False",
-        password: "User Password Test"
-      }
-
-      const { email, password } = user;
-
       await createUserAuthToken
-        .execute({ email, password });
+        .execute({ email: "User Email Test False", password: "User Password Test" });
 
     }).rejects
       .toBeInstanceOf(AppError);
@@ -64,16 +46,8 @@ describe("Create User Auth Token", () => {
 
     expect(async () => {
 
-      const user = {
-
-        email: "User Email Test",
-        password: "User Password Test False"
-      }
-
-      const { email, password } = user;
-
       await createUserAuthToken
-        .execute({ email, password });
+        .execute({ email: "User Email Test", password: "User Password Test False" });
 
     }).rejects
       .toBeInstanceOf(AppError);

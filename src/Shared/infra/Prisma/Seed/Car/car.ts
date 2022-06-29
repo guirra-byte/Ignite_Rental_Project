@@ -7,7 +7,7 @@ async function create() {
 
   async function generateId(): Promise<string> {
 
-    const id: string = await uuidV4();
+    const id: string = uuidV4();
     return id;
   }
 
@@ -30,7 +30,7 @@ async function create() {
     .$queryRaw`INSERT INTO CAR_SPECIFICATION(car_id, specification_id) VALUES('8507a95c-103f-4552-a3a4-c6de58738cf8','3b983dd4-d0d6-456a-87bf-75256b02bd4c')`
 
   //Select All Specification
-  const car_specification = await prisma
+  await prisma
     .$queryRaw`SELECT * FROM CAR_SPECIFICATION`;
 
   await prisma

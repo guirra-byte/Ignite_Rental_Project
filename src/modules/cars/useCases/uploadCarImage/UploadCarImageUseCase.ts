@@ -20,8 +20,6 @@ export class UploadCarImagesUseCase {
       .carRepository
       .findById(car_id);
 
-    console.log(verifyCarExists);
-
     if (!verifyCarExists) {
 
       throw new AppError("Car does exists");

@@ -7,7 +7,8 @@
     "save-dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "test": "jest",
     "seed:admin": "ts-node-dev src/shared/infra/Prisma/Seed/admin/admin.ts",
-    "seed:car": "ts-node-dev src/shared/infra/Prisma/Seed/Car/car.ts"
+    "seed:car": "ts-node-dev src/shared/infra/Prisma/Seed/Car/car.ts",
+    "seed:rental": "ts-node-dev src/shared/infra/Prisma/Seed/Rental/rental.ts"
   },
   "author": "",
   "license": "ISC",
@@ -36,6 +37,7 @@
   },
   "dependencies": {
     "csv-parse": "^5.0.4",
+    "dayjs": "^1.11.3",
     "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",

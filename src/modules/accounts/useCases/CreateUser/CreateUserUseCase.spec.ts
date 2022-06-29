@@ -2,11 +2,6 @@ import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 import { UserRepositoryInMemory } from "../../repositories/in-memory/UserRepositoryInMemory";
 import { CreateUserUseCase } from '../../useCases/CreateUser/CreateUserUseCase';
 
-function userAlreadyExists(): Error {
-
-  throw new AppError('This User already exists');
-}
-
 describe("Create User", () => {
 
   let userRepositoryInMemory: UserRepositoryInMemory;
@@ -21,22 +16,14 @@ describe("Create User", () => {
 
   test("Should be able create a new User", async () => {
 
-    const user = {
-
-      name: "User Name Test",
-      username: "User Username Test",
-      email: "User Email Test",
-      password: "User Password Test",
-      driver_license: "User Driver-License Test"
-    }
-
     await createUserUseCase
-      .execute(user.name, user.username, user.email, user.password, user.driver_license);
-
-    const { email } = user;
+      .execute("User Name Test", "User UserName Test",
+        "User@gmail.Test", "Mabel_22", "Mabel_2022");
 
     const findUser = await userRepositoryInMemory
-      .findOne(email);
+      .findOne("User Name Test");
+
+    console.log(findUser);
 
     expect(findUser)
       .toHaveProperty("id");
@@ -46,32 +33,22 @@ describe("Create User", () => {
 
     expect(async () => {
 
-      const user = {
-
-        name: "User Name Test",
-        username: "User Username Test",
-        email: "User Email Test",
-        password: "User Password Test",
-        driver_license: "User Driver-License Test"
-
-      }
-
-      const { name, username, email, driver_license, password } = user;
-
       await createUserUseCase
-        .execute(name, username, email, password, driver_license);
+        .execute("User Name Test", "User UserName Test",
+          "User@gmail.Test", "Mabel_22", "Mabel_2022");
 
       const verifyUserAlreadyExists = await userRepositoryInMemory
-        .findOne(email);
+        .findOne("User@gmail.Test");
 
       expect(verifyUserAlreadyExists)
         .toHaveProperty("id");
 
       await createUserUseCase
-        .execute(name, username, email, password, driver_license);
+        .execute("User2 Name Test", "User2 UserName2 Test",
+          "User2@gmail.Test", "Mabel2_22", "Mabel2_2022");
 
       const verifyUserAlreadyExistsAgain = await userRepositoryInMemory
-        .findOne(email);
+        .findOne("User2@gmail.Test");
 
       if (verifyUserAlreadyExistsAgain) {
 
@@ -79,7 +56,8 @@ describe("Create User", () => {
       }
 
       await createUserUseCase
-        .execute(name, username, email, password, driver_license);
+        .execute("User2 Name Test", "User2 UserName2 Test",
+          "User2@gmail.Test", "Mabel2_22", "Mabel2_2022");
 
     }).rejects
       .toBeInstanceOf(AppError);

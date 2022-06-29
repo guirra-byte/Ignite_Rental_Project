@@ -63,12 +63,12 @@ export class SpecificationRepositoryInMemory implements ISpecificationsRepositor
         ids
           .map(async (id) => specification.id === id)));
 
+
+    //Test Other Filter Mode;
     const otherFindMode = await this
       .specifications
       .filter(async (specification) => ids
         .includes(specification.id));
-
-    console.log(otherFindMode);
 
     return findSpecifications;
   }
