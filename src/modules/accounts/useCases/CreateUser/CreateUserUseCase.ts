@@ -21,8 +21,6 @@ export class CreateUserUseCase {
       throw new AppError("User already exists!");
     }
 
-    console.log("Chegou aqui");
-
     await this
       .userRepository
       .create({
@@ -33,8 +31,6 @@ export class CreateUserUseCase {
     const findUserTest = await this
       .userRepository
       .findOne(username);
-
-    console.log(findUserTest);
 
   }
 }

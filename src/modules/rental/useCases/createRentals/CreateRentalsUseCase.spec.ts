@@ -106,8 +106,6 @@ describe("Create a new Rental", () => {
     const findOpenRental = await rentalRepositoryInMemory
       .findOpenRentalByCar(findAllCarProps.id);
 
-    console.log(findOpenRental);
-
     expect(findOpenRental)
       .toHaveProperty('id');
 

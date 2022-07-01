@@ -15,6 +15,13 @@ async function create() {
 
 }
 
+export async function selectAdminUser() {
+
+  const prismaClient: PrismaClient = new PrismaClient();
+  const adminUser = await prismaClient.$queryRaw`SELECT * FROM USER WHERE ADMIN = TRUE`
+  return adminUser;
+}
+
 create()
   .then(
     () => console

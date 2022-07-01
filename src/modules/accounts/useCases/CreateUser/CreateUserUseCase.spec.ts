@@ -16,14 +16,22 @@ describe("Create User", () => {
 
   test("Should be able create a new User", async () => {
 
+    const user = {
+
+      name: "User Name Test",
+      username: "User UserName Test",
+      email: "User@gmail.Test",
+      password: "Mabel_22",
+      driver_license: "Mabel_2022"
+    }
+
+    const { name, username, email, password, driver_license } = user;
+
     await createUserUseCase
-      .execute("User Name Test", "User UserName Test",
-        "User@gmail.Test", "Mabel_22", "Mabel_2022");
+      .execute(name, username, email, password, driver_license);
 
     const findUser = await userRepositoryInMemory
-      .findOne("User Name Test");
-
-    console.log(findUser);
+      .findOne(email);
 
     expect(findUser)
       .toHaveProperty("id");

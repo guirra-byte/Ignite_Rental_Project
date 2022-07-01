@@ -11,14 +11,14 @@ let categoriesRepository: CategoryRepositoryInMemory;
 
 describe("Create new Category", () => {
 
-  beforeEach(() => {
+  beforeEach(async () => {
 
     categoriesRepository = new CategoryRepositoryInMemory();
     createCategoryUseCase = new CreateCategoryUseCase(categoriesRepository);
 
   });
 
-  it("Should be able create a new Category", async () => {
+  test("Should be able create a new Category", async () => {
 
     const category = {
 
@@ -39,7 +39,7 @@ describe("Create new Category", () => {
       .toHaveProperty("id");
   });
 
-  it("Should be able verify Category already exists", async () => {
+  test("Should be able verify Category already exists", async () => {
 
     expect(async () => {
 

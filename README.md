@@ -98,3 +98,15 @@ Desafios para uma aplicação mais completa:
  -> MicroServices - Modelo de Aplicação;
  -> Implementação e Integração de API de pagamento;
  -> Implementação e Integração com API do WhatsApp;
+
+-> Fundamentos dos Testes de Integração:
+Sua implementação tem como objetivo encontrar falhas de integração entre as unidades [Que estão sendo testadas com Testes Unitários]:
+  - [] Testes de Interface;
+  - [] Testes de dependências entre os componentes;
+
+O Escopo deste Tipo de Testagem demonstra ser interessante testar um classe, uma função, um pacote, um serviço, ou todo o sistema.
+Simplificando, o Teste de Integração realiza a testagem do módulos em GRUPO;
+Desse modo, é perceptível que o Teste de Integração Sucede o Teste Unitário;
+Basicamente o Teste Integração é um Teste formado por vários Testes Unitários;
+
+-> Vamos utilizar uma ferramenta chamada SuperTest;

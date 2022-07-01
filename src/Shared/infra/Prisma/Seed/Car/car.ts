@@ -19,7 +19,7 @@ async function create() {
 
   // Create Car
   await prisma
-    .$queryRaw`INSERT INTO CARS(name, description, daily_rate, available, license_plate, fine_amount, brand, created_at, id, category_id) VALUES('Volks Nivus', 'Dream Car', 700, true, 'MABEL_NOW', 'fine_amount', 'Volks', ${new Date()}, ${id}, 'fe000604-c4cb-4ea4-af67-9fc179881b7e')`
+    .$queryRaw`INSERT INTO CARS(name, description, daily_rate, available, license_plate, fine_amount, brand, created_at, id, category_id) VALUES('Volks Nivus', 'Dream Car', 700, true, 'MABEL_NOW','fine_amount', 'Volks', ${new Date()}, ${id}, 'fe000604-c4cb-4ea4-af67-9fc179881b7e')`
 
   //Create Car Specification
   await prisma

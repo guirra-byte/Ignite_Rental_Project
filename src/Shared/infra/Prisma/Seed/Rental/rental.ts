@@ -26,9 +26,6 @@ async function create() {
   const hours: number = (minutes / 60);
   const day: number = (hours / 24);
 
-  console.log(day);
-  console.log(returnRandomDay);
-
   //Create Car Rental
   await prisma
     .$queryRaw`INSERT INTO RENTAL(id, start_date, expect_return_date, created_at, user_id, car_id) VALUES(${id}, ${new Date()}, ${new Date()}, ${new Date()}, 'eac76feb-1f15-4ab7-a663-a7d3229378a0', '8507a95c-103f-4552-a3a4-c6de58738cf8')`

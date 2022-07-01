@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { CreateCategoryUseCase } from './CreateCategoryUseCase';
 
-export class CreateCategoryController {
+class CreateCategoryController {
 
   constructor(private createCategoryUseCase: CreateCategoryUseCase) { }
 
@@ -29,3 +29,5 @@ export class CreateCategoryController {
 
   }
 }
+
+export { CreateCategoryController }

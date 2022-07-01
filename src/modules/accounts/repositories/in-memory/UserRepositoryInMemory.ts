@@ -29,6 +29,7 @@ export class UserRepositoryInMemory implements IUserRepository {
 
         name: create.name,
         email: create.email,
+        username: create.username,
         password: create.password,
         driver_license: create.driver_license
       });
@@ -67,9 +68,6 @@ export class UserRepositoryInMemory implements IUserRepository {
     const verifyUserAdminProp = await this
       .repository
       .find((user) => user.id === sub);
-
-    console
-      .log(verifyUserAdminProp);
 
     if (verifyUserAdminProp.isAdmin) {
 
