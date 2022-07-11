@@ -28,8 +28,6 @@ app.use(userRoutes);
 
 app.use('/api-docs', SwaggerUiOptions.serve, SwaggerUiOptions.setup(swaggerFile));
 
-
-
 app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
 
   if (err instanceof AppError) {

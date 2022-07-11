@@ -18,7 +18,7 @@ describe("Create User Auth Token", () => {
     createUserAuthToken = new AuthUserUseCase(userRepository);
   });
 
-  test("Create User Auth Token", async () => {
+  it("Should be able create a New User Auth Token", async () => {
 
     await createUserUseCase
       .execute("User Name Test", "User UserName Test",
@@ -31,7 +31,7 @@ describe("Create User Auth Token", () => {
       .toHaveProperty("token");
   });
 
-  test("User does exists", async () => {
+  it("Should not be able create a new User Auth Token, with user does exists", async () => {
 
     expect(async () => {
 
@@ -42,7 +42,7 @@ describe("Create User Auth Token", () => {
       .toBeInstanceOf(AppError);
   });
 
-  it("User password are incorrect", async () => {
+  it("Should not be able create a User Auth Token, with User Password are incorrect", async () => {
 
     expect(async () => {
 

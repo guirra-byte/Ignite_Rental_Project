@@ -50,4 +50,21 @@ export class RentalRepositoryInMemory implements IRentalRepository {
     return findOpenRentalByUser;
   }
 
+  async replaceTotal(final_value: number, rental_id: string): Promise<void> {
+
+    const replaceRentalTotal: number = await this
+      .repository
+      .findIndex(async (rental) => rental.id === rental_id
+        && rental.total === undefined);
+
+    const rental = this.repository[replaceRentalTotal];
+
+    Object
+      .assign(rental, {
+        total: final_value,
+        updated_at: new Date()
+      });
+
+  }
+
 }

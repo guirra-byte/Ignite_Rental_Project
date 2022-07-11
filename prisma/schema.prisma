@@ -65,7 +65,7 @@ model Car {
   daily_rate     Int
   available      Boolean  @default(true)
   license_plate  String   @unique
-  fine_amount    String
+  fine_amount    Int
   brand          String
   created_at     DateTime @default(now())
   fk_category_id Category @relation(fields: [category_id], references: [id])

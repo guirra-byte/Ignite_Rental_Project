@@ -1,4 +1,4 @@
-const { TestEnvironment: NodeEnvironment } = require("jest-environment-node");
+const { TestEnvironment: NodeEnvironment } = require ("jest-environment-node");
 const prismaClientCli = "./node_modules/.bin/prisma";
 
 const { createConnection } = require("mysql2");
@@ -7,7 +7,7 @@ const { resolve } = require("path");
 const { config } = require("dotenv")
 const { v4: uuidV4 } = require("uuid");
 
-config({ path: resolve(__dirname, ".", ".env") });
+config({ path: ".env" });
 
 class CustomEnvironment extends NodeEnvironment {
 
@@ -17,9 +17,14 @@ class CustomEnvironment extends NodeEnvironment {
 
     this.schema = `code_test_schema_${uuidV4()}`;
     this.connectionString = `${process.env.DATABASE_URL}${this.schema}`;
+
+    console.log(`Aqui está a sua SuperConfig ${config}`);
   }
 
-  setup() { 
+  async setup() { 
+
+    console.log("Iniciando a fase de Implementação de Testes de Integração");
+    await super.setup();
 
       process.env.DATABASE_URL = this.connectionString;
       this.global.process.env.DATABASE_URL = this.connectionString;
@@ -31,8 +36,6 @@ class CustomEnvironment extends NodeEnvironment {
       //Para rodar iremos precisar do Prisma;
       //Por isso utilizamos a sua Cli - Comand Line Intelisense;
 
-      console.log("Iniciando fase de Testes de Integração");
-
       const prismaCmdMigrateDev = prismaClientCli.split("/")[3];
 
       execSync(`npx ${prismaCmdMigrateDev} migrate deploy`);
@@ -40,6 +43,8 @@ class CustomEnvironment extends NodeEnvironment {
 
   async teardown(){
 
+    console.log("Finalizando a fase de Testes de Integração!");
+    await super.teardown();
     const getDatabaseEnvProps = this.connectionString.split("/")[2];
     const getDatabasePassword = getDatabaseEnvProps.split("@");
 
@@ -71,4 +76,4 @@ class CustomEnvironment extends NodeEnvironment {
   }
 }
 
-module.exports = CustomEnvironment;
+module.exports = new CustomEnvironment;

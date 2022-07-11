@@ -7,7 +7,7 @@ export interface ICarRequestProps {
   daily_rate: number
   available?: boolean
   license_plate: string
-  fine_amount: string
+  fine_amount: number
   brand: string
   category_id: string
   specification_id?: string[]
@@ -22,5 +22,6 @@ export interface ICarRepository {
   findByLicensePlate(license_plate: string): Promise<Car>
   findAvailable(brand?: string, category_id?: string, name?: string): Promise<Car[]>
   findById(id: string): Promise<Car>
+  replaceAvailable(car_id: string, available: boolean): Promise<Car>
 
 }

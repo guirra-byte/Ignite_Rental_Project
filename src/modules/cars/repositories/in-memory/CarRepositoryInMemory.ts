@@ -68,4 +68,19 @@ export class CarRepositoryInMemory implements ICarRepository {
 
     return findCarById;
   }
+
+  async replaceAvailable(car_id: string, available: boolean): Promise<Car> {
+
+    const requireAvailable: boolean = available;
+
+    const findCarAndReplace = await this
+      .repository
+      .find(async (car) => {
+        car.id === car_id
+      });
+
+    findCarAndReplace.available = requireAvailable;
+
+    return findCarAndReplace;
+  }
 }

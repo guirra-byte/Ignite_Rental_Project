@@ -23,7 +23,7 @@ let createRentalUseCase: CreateRentalUseCase;
 describe("Create a new Rental", () => {
 
   const newDateAdd24Hours: Date = dayjs()
-    .add(1, "day")
+    .add(3, "day")
     .toDate();
 
   beforeEach(async () => {
@@ -34,10 +34,10 @@ describe("Create a new Rental", () => {
     categoryRepositoryInMemory = new CategoryRepositoryInMemory();
     returnDatesCompareProvider = new DateProvider();
 
-    createRentalUseCase = new CreateRentalUseCase(rentalRepositoryInMemory, returnDatesCompareProvider);
+    createRentalUseCase = new CreateRentalUseCase(rentalRepositoryInMemory, carRepositoryInMemory, returnDatesCompareProvider);
   });
 
-  test("Should be able create a new Rental", async () => {
+  it("Should be able create a new Rental", async () => {
 
     async function createCategoryAndGetAllProps({ name, description }): Promise<Category> {
 
@@ -60,7 +60,7 @@ describe("Create a new Rental", () => {
       daily_rate: 650,
       available: true,
       license_plate: "MABEL_22",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "England Motors",
       category_id: category1.id
     }
@@ -111,7 +111,7 @@ describe("Create a new Rental", () => {
 
   });
 
-  test("Should not be able create a new Rental, with invalid return time", async () => {
+  it("Should not be able create a new Rental, with invalid return time", async () => {
 
     expect(async () => {
 

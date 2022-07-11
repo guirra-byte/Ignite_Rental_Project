@@ -42,7 +42,7 @@ describe("Create a new Specification", () => {
 
     async function createCarAndGetAllProps(name: string, description: string,
       daily_rate: number, available: boolean,
-      license_plate: string, fine_amount: string,
+      license_plate: string, fine_amount: number,
       brand: string, category_id: string): Promise<Car> {
 
       const props = {
@@ -78,7 +78,7 @@ describe("Create a new Specification", () => {
       daily_rate: 560,
       available: true,
       license_plate: "MABEL_22",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "England Motors",
       category_id: categoryProps.id
 

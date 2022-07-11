@@ -1,4 +1,5 @@
 import { IRentalRepository } from '../../repositories/IRentalRepository';
+import { ICarRepository } from '../../../cars/repositories/ICarRepository';
 import { IRequest } from '../../repositories/IRentalRepository';
 import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 
@@ -6,7 +7,10 @@ import { IDateProvider } from '../../../../Shared/infra/Providers/DateProvider/I
 
 export class CreateRentalUseCase {
 
-  constructor(private rentalRepository: IRentalRepository, private returnDateProvider: IDateProvider) { }
+  constructor(
+    private rentalRepository: IRentalRepository,
+    private carRepository: ICarRepository,
+    private returnDateProvider: IDateProvider) { }
 
   async execute(data: IRequest): Promise<void> {
 
@@ -37,15 +41,23 @@ export class CreateRentalUseCase {
     }
 
     //Instanciação do Provider de Dates
-    //Provider rreturn Data type Number
+    //Provider return Data type Number
     const returnCompareDatesProvider = await this
       .returnDateProvider
-      .compare(data.expect_return_date);
+      .compareInHour(data.expect_return_date);
 
     if (returnCompareDatesProvider < minTime) {
 
       throw new AppError("Invalid return date time");
     }
+
+    const findCar = await this
+      .carRepository
+      .findById(data.car_id);
+
+    await this
+      .carRepository
+      .replaceAvailable(findCar.id, false);
 
     await this
       .rentalRepository

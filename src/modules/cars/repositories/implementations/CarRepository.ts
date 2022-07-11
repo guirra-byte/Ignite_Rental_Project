@@ -91,4 +91,19 @@ export class CarRepository implements ICarRepository {
 
     return findCarById;
   }
+
+  async replaceAvailable(car_id: string, available: boolean): Promise<Car> {
+
+    const requireAvailable: boolean = available;
+
+    const replaceCarInAvailable = await this
+      .repository
+      .car
+      .update({
+        where: { id: car_id },
+        data: { available: requireAvailable }
+      });
+
+    return replaceCarInAvailable;
+  }
 }

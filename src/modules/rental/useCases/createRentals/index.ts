@@ -1,4 +1,5 @@
 import { RentalRepository } from "../../repositories/implementation/RentalRepository";
+import { CarRepository } from '../../../cars/repositories/implementations/CarRepository';
 import { CreateRentalUseCase } from "./CreateRentalUseCase";
 import { CreateRentalController } from "./CreateRentalController";
 
@@ -8,10 +9,11 @@ import { Request, Response } from 'express';
 
 const CreateRentalInstanceIndex = async (request: Request, response: Response) => {
 
-  const rentalsRepository = RentalRepository.getInstance();
+  const rentalsRepository: RentalRepository = RentalRepository.getInstance();
+  const carRepository: CarRepository = CarRepository.getInstance();
   const dateProvider = new DateProvider();
 
-  const createRentalUseCase = new CreateRentalUseCase(rentalsRepository, dateProvider);
+  const createRentalUseCase = new CreateRentalUseCase(rentalsRepository, carRepository, dateProvider);
 
   const createRentalsController = new CreateRentalController(createRentalUseCase);
 

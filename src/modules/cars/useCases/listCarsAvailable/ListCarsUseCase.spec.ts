@@ -44,7 +44,7 @@ describe("List Cars", () => {
       daily_rate: 500,
       available: true,
       license_plate: "ABC-1234",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "Volks",
       category_id: id
     }
@@ -65,7 +65,7 @@ describe("List Cars", () => {
       daily_rate: 430,
       available: true,
       license_plate: "ABC-4321",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "Volks",
       category_id: id
     }
@@ -110,7 +110,7 @@ describe("List Cars", () => {
       daily_rate: 560,
       available: true,
       license_plate: "MABEL_22",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "Volks",
       category_id: findCategory1.id
     }
@@ -125,7 +125,7 @@ describe("List Cars", () => {
       daily_rate: 700,
       available: true,
       license_plate: "MABEL_22",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "England Motors",
       category_id: findCategory1.id
 
@@ -172,7 +172,7 @@ describe("List Cars", () => {
       daily_rate: 700,
       available: true,
       license_plate: "MABEL_22",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "England Motors",
       category_id: findCategory1.id
     }
@@ -217,7 +217,7 @@ describe("List Cars", () => {
       daily_rate: 700,
       available: true,
       license_plate: "MABEL_22",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "England Motors",
       category_id: findCategory1.id
     }

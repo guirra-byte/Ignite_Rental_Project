@@ -46,7 +46,7 @@ describe("Upload a new Car Images", () => {
       daily_rate: 700,
       available: true,
       license_plate: "MABEL_22",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "England Motors",
       category_id: findCategory1.id
 

@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
 
-
 // ---- Importação dos Middlewares ----
 import { verifyCategoryAlreadyExists } from '../Middleware/indexController';
 import { VerifyUserAuthToken as ensureAuthToken } from '../Middleware/Token/Auth';
@@ -25,7 +24,7 @@ categoriesRoutes.post('/', ensureAuthToken, ensureAdmin, verifyCategoryAlreadyEx
   return CreateCategoryInstanceIndex(request, response);
 });
 
-categoriesRoutes.get('/', (request, response) => {
+categoriesRoutes.get('/', ensureAuthToken, (request, response) => {
 
   return ListCategoryInstanceIndex(request, response);
 });

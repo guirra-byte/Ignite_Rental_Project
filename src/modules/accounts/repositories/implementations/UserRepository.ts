@@ -24,7 +24,16 @@ export class UserRepository implements IUserRepository {
     await this
       .repository
       .user
-      .create({ data: { name, email, password, driver_license, avatar, username } });
+      .create({
+        data: {
+          name,
+          email,
+          password,
+          driver_license,
+          avatar,
+          username
+        }
+      });
 
   }
 
@@ -81,4 +90,5 @@ export class UserRepository implements IUserRepository {
         data: { isAdmin: true }
       });
   }
+
 }

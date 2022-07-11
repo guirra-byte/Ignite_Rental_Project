@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
 import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 
-
 interface IRequest {
   name: string,
   description: string

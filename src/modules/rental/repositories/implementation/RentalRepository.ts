@@ -74,4 +74,18 @@ export class RentalRepository implements IRentalRepository {
 
     return undefined;
   }
+
+  async replaceTotal(final_value: number, rental_id: string): Promise<void> {
+
+    await this
+      .repository
+      .update({
+        where: { id: rental_id },
+        data: {
+          total: final_value,
+          updated_at: new Date(),
+          end_date: new Date()
+        }
+      });
+  }
 }

@@ -18,9 +18,14 @@ async function create(name: string, description: string) {
     .$queryRaw`INSERT INTO CATEGORY(name, description, id, created_at) 
     VALUES(${name} , ${description}, ${id}, ${new Date()})`;
 
+  const requireCategory = await prismaClient
+    .$queryRaw`SELECT * FROM CATEGORY`;
+
+  return requireCategory;
+
 }
 
-async function deleteCategory(name: string) {
+async function deleteCategory(name: string): Promise<void> {
 
   const prismaClient: PrismaClient = new PrismaClient();
 

@@ -7,13 +7,14 @@ dayjs
 
 export class DateProvider implements IDateProvider {
 
-  async compare(end_date_return: Date): Promise<number> {
+  async compareInHour(end_date_return: Date): Promise<number> {
 
     // ---- Formatação do Expect Return Date ----
     const expectReturnDateFormat = dayjs(end_date_return)
       .utc()
       .local()
       .format();
+
     // ---- ** ----
 
     // ---- Formatação do Date Now() - Data Atual ----
@@ -21,18 +22,59 @@ export class DateProvider implements IDateProvider {
       .utc()
       .local()
       .format();
+
     // ---- ** ----
 
     // ---- Implementação da comparação de Dates
-    // - Comparação da subtração entre as Datas ---- 
+    // - Para ser mais exato isso é apenas a subtração entre as Dates ---- 
 
     const compareDates: number = dayjs(expectReturnDateFormat)
-      .diff(startDate);
+      .diff(startDate, "hours");
+
+    console.log(compareDates);
+
     // ---- ** ----
 
     // ---- Return na diferença entre as Dates ---- 
     return compareDates;
     // ---- ** ----
 
+  }
+
+  async compareInDays(start_date: Date, end_date: Date): Promise<number> {
+
+    const startDateFormat = dayjs(start_date)
+      .utc()
+      .local()
+      .format();
+
+    const endDateFormat = dayjs(end_date)
+      .utc()
+      .local()
+      .format();
+
+    const compareDates = dayjs(endDateFormat)
+      .diff(startDateFormat, "days");
+
+    return compareDates;
+  }
+
+  async dateNow(): Promise<Date> {
+
+    const now: Date = dayjs()
+      .utc()
+      .local().toDate();
+
+    return now;
+  }
+
+  async replaceToUTC(date: Date): Promise<string> {
+
+    const replaceDateToUTCFormat = dayjs(date)
+      .utc()
+      .local()
+      .format();
+
+    return replaceDateToUTCFormat;
   }
 }

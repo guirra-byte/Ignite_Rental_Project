@@ -9,10 +9,12 @@ module.exports = async ()=>{
       port: 3306,
       user: "root",
       password: "V84816756",
-      database: "rentalx_project" });
+      database: "rentalx_project" }); 
+
+      console.log(global.__SCHEMA__);
 
       await client.connect();
-      client.query(`DROP SCHEMA IF EXISTS "${global.__SCHEMA__}" CASCADE`);
+      client.query(`DROP SCHEMA IF EXISTS "${global.__SCHEMA__}"`);
       await client.end();
 
       console.log("Remoção do Schema feita com sucesso...");

@@ -12,5 +12,6 @@ export interface IRentalRepository {
   createRental({ user_id, car_id, expect_return_date }: IRequest): Promise<void>
   findOpenRentalByCar(car_id: string): Promise<Rental>
   findOpenRentalByUser(user_id: string): Promise<Rental>
+  replaceTotal(final_value: number, rental_id: string): Promise<void>
 
 }

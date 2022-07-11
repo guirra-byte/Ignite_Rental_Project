@@ -16,10 +16,10 @@
 
 **Requisitos Funcionais: Listagem de Carros**
 
-- [x] Deve ser possível listar todos os carros disponíveis;
-- [] Deve ser possível listar todos os carros disponíveis pelo nome da Category;
-- [] Deve ser possível listar todos os carros disponíveis pelo nome da Marca;
-- [] Deve ser possível listar todos os carros disponíveis pelo nome do Carro;
+- [x] Deve ser possível listar todos os carros disponíveis;F
+- [x] Deve ser possível listar todos os carros disponíveis pelo nome da Category;
+- [x] Deve ser possível listar todos os carros disponíveis pelo nome da Marca;
+- [x] Deve ser possível listar todos os carros disponíveis pelo nome do Carro;
 
 **Regras de Negócios: Listagem de Carro**
 
@@ -58,19 +58,30 @@
 # Aluguel de Carros: 
 
 **Requisitos Funcionais: Aluguel de Carros**
-- [] Deve ser possível realizar o Aluguel de um Carro;
-- [] Deve ser possível listar todos os Carros que estão Alugados;
-- [] O Aluguel deve ter duração mínima de 24 Horas;
-- [] O User deve estar logado na aplicação;
+- [x] Deve ser possível realizar o Aluguel de um Carro;
+- [x] Deve ser possível listar todos os Carros que estão Alugados;
+- [x] O Aluguel deve ter duração mínima de 24 Horas;
+- [x] O User deve estar logado na aplicação;
+- [x] Ao ser relizado o aluguel do carro deve ser possível fazer a alteração na property available para False;
 
 **Regras de Negócios: Aluguel de Carros**
-- [] Não deve ser possível fazer o Aluguel de um Carro que já esteja Alugado;
-- [] Não deve ser possível Alugar mais de um Carro;
-- [] Não deve ser possível Alugar um Carro sem estar Cadastrado;
+- [x] Não deve ser possível fazer o Aluguel de um Carro que já esteja Alugado;
+- [x] Não deve ser possível Alugar mais de um Carro;
+- [x] Não deve ser possível Alugar um Carro sem estar Cadastrado;
+
+
+# Devolução do Aluguel de carros:
+- [] Se o carro for devolvido em um espaço de tempo menor ou igual a 24 horas, deverá ser cobrado o valor da diária completa;
+- [x] Ao ser realizada a devolução, o carro deverá ser liberado para um outro possível aluguel;
+- [x] Ao ser realizada a devolução do carro, o user deverá ser liberado para um outro possível aluguel;
+- [x] Ao ser realizada a devolução do carro, deverá ser calculado o valor integral do aluguel;
+- [] Caso o horário de devolução seja superior ao horário estimulado da previsão da entrega,
+ deverá ser cobrado multa referente ao tempo de atraso;
+- [] Caso houver multa, deverá ser inteirado ao valor definido ao valor final do aluguel;
+- [x] O User deverá estar logado na aplicação;
 
 - [x] **`Verificação de User License_Plate por meio de Middleware;`**
 - [x] **`Verificação de User isAdmin por meio de Middleware;`**
-
 
 Requisitos da Aplicação:
 

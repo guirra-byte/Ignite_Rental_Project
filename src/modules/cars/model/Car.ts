@@ -10,7 +10,7 @@ export class Car {
   daily_rate: number
   available?: boolean
   license_plate: string
-  fine_amount: string
+  fine_amount: number
   brand: string
   created_at: Date
   id?: string

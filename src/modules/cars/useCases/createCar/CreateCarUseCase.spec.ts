@@ -52,7 +52,7 @@ describe("Create a new Car", () => {
       daily_rate: 500,
       available: true,
       license_plate: "ABC-1234",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "Volks",
       category_id: category1.id
     }
@@ -96,7 +96,7 @@ describe("Create a new Car", () => {
         daily_rate: 1290,
         available: true,
         license_plate: "ABC-1234",
-        fine_amount: "fine_amount",
+        fine_amount: 450,
         brand: "Brand",
         category_id: category1.id
       }
@@ -111,7 +111,7 @@ describe("Create a new Car", () => {
         daily_rate: 500,
         available: true,
         license_plate: "ABC-1234",
-        fine_amount: "fine_amount",
+        fine_amount: 450,
         brand: "Volks",
         category_id: category1.id
       }
@@ -183,7 +183,7 @@ describe("Create a new Car", () => {
       daily_rate: 1290,
       available: true,
       license_plate: "Mabel_2022",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "Brand",
       category_id: category1.id
     }
@@ -223,7 +223,7 @@ describe("Create a new Car", () => {
       description: "Dream Car",
       daily_rate: 1290,
       license_plate: "Mabel_2022",
-      fine_amount: "fine_amount",
+      fine_amount: 450,
       brand: "brand",
       category_id: category1.id
     }
