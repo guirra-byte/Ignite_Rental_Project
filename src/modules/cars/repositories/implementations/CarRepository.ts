@@ -4,14 +4,19 @@ import { Car } from "../../model/Car";
 
 export class CarRepository implements ICarRepository {
 
-  constructor(private repository: typeof prisma) { }
+  private repository: typeof prisma.car;
+
+  constructor() {
+
+    this.repository = prisma.car;
+  }
 
   private static INSTANCE: CarRepository;
   static getInstance(): CarRepository {
 
     if (!CarRepository.INSTANCE) {
 
-      CarRepository.INSTANCE = new CarRepository(prisma);
+      CarRepository.INSTANCE = new CarRepository();
     }
 
     return CarRepository.INSTANCE;
@@ -24,7 +29,6 @@ export class CarRepository implements ICarRepository {
 
     await this
       .repository
-      .car
       .create({
         data: {
           name,
@@ -43,7 +47,6 @@ export class CarRepository implements ICarRepository {
 
     const findOneCar = await this
       .repository
-      .car
       .findUnique({ where: { name: name } });
 
     return findOneCar;
@@ -53,7 +56,6 @@ export class CarRepository implements ICarRepository {
 
     const findAllCars = await this
       .repository
-      .car
       .findMany();
 
     return findAllCars;
@@ -63,7 +65,6 @@ export class CarRepository implements ICarRepository {
 
     const findCarByLicensePlate = await this
       .repository
-      .car
       .findUnique({ where: { license_plate: license_plate } });
 
     return findCarByLicensePlate;
@@ -73,7 +74,6 @@ export class CarRepository implements ICarRepository {
 
     const findAllCarsAvailable = await this
       .repository
-      .car
       .findMany({ where: { available: true } });
 
     return findAllCarsAvailable;
@@ -84,7 +84,6 @@ export class CarRepository implements ICarRepository {
 
     const findCarById = await this
       .repository
-      .car
       .findUnique({
         where: { id: id }
       });
@@ -98,7 +97,6 @@ export class CarRepository implements ICarRepository {
 
     const replaceCarInAvailable = await this
       .repository
-      .car
       .update({
         where: { id: car_id },
         data: { available: requireAvailable }

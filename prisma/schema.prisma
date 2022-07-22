@@ -53,6 +53,7 @@ model User {
   //Várias Rentals, porém não Simultâneas;
   Rentals       Rentals[]
   UserRentalCar UserRentalCar[]
+  RefreshToken  RefreshToken[]
 
   @@map("user")
 }
@@ -140,6 +141,18 @@ model UserRentalCar {
 
   @@id([car_id, user_id])
   @@map("user_rental_car")
+}
+
+model RefreshToken {
+
+  id            String   @id @default(uuid())
+  refresh_token String
+  user_id       String
+  user          User     @relation(fields: [user_id], references: [id])
+  expires_in    DateTime
+  machine_ip    String
+
+  @@map("refreshToken")
 }
 
 //Relacionamento entre Car e Category

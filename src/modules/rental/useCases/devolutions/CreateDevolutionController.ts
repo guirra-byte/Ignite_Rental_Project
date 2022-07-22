@@ -12,7 +12,7 @@ export class CreateDevolutionController {
 
     try {
 
-      await this
+      const rentalDevolutions = await this
         .createDevolutionUseCase
         .execute({
           user_id: user_id,
@@ -22,7 +22,7 @@ export class CreateDevolutionController {
 
       return response
         .status(201)
-        .send();
+        .json(rentalDevolutions);
     }
 
     catch (exception) {

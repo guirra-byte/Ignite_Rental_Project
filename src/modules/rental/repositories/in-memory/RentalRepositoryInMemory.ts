@@ -1,13 +1,22 @@
 import { Rental } from '../../model/rental';
+import { Car } from '../../../cars/model/Car';
+import { User } from '../../../accounts/model/User';
+
 import { IRentalRepository, IRequest } from '../IRentalRepository';
+
+import { RequireAllRentalPropsDTO } from '../../Services/Data/RequireAllRentalPropsDTO';
 
 export class RentalRepositoryInMemory implements IRentalRepository {
 
-  private repository: Rental[]
+  private repository: Rental[];
+  private userRepository: User[];
+  private carRepository: Car[];
 
   constructor() {
 
     this.repository = [];
+    this.userRepository = [];
+    this.carRepository = [];
   }
 
   async createRental({ user_id, car_id, expect_return_date }: IRequest): Promise<void> {
@@ -65,6 +74,37 @@ export class RentalRepositoryInMemory implements IRentalRepository {
         updated_at: new Date()
       });
 
+  }
+
+  async findUserRentals(user_id: string): Promise<RequireAllRentalPropsDTO> {
+
+    const findUserRentals = await this
+      .repository
+      .filter((rental) => (rental.user_id === user_id));
+
+    const findUser = await this
+      .userRepository
+      .filter(async (user) => (user.id === user_id));
+
+    const findCarByRental = await this
+      .repository
+      .findIndex(async (rental) => (rental.user_id === user_id));
+
+    const { car_id } = this.repository[findCarByRental];
+
+    const findCar = await this
+      .carRepository
+      .filter(async (car) => (car.id === car_id));
+
+    const requireAllRentalProps = {
+
+      user: findUser,
+      car: findCar,
+      rental: findUserRentals
+
+    } as RequireAllRentalPropsDTO
+
+    return requireAllRentalProps;
   }
 
 }

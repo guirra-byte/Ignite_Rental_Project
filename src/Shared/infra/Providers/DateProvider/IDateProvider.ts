@@ -5,6 +5,8 @@ interface IDateProvider {
   compareInDays(start_date: Date, end_date: Date): Promise<number>
   dateNow(): Promise<Date>
   replaceToUTC(date: Date): Promise<string>
+  addDays(days: number): Promise<Date>
+  addHours(hours: number): Promise<Date>
 }
 
 export { IDateProvider }

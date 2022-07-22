@@ -5,7 +5,12 @@ import { ICreateUserDTO } from '../../Services/Data/ICreateUserDTO';
 
 export class UserRepository implements IUserRepository {
 
-  constructor(private repository: typeof prisma) { }
+  private repository: typeof prisma.user;
+
+  constructor() {
+
+    this.repository = prisma.user;
+  }
 
   private static INSTANCE: UserRepository;
 
@@ -13,7 +18,7 @@ export class UserRepository implements IUserRepository {
 
     if (!UserRepository.INSTANCE) {
 
-      UserRepository.INSTANCE = new UserRepository(prisma);
+      UserRepository.INSTANCE = new UserRepository();
     }
 
     return UserRepository.INSTANCE;
@@ -23,7 +28,6 @@ export class UserRepository implements IUserRepository {
 
     await this
       .repository
-      .user
       .create({
         data: {
           name,
@@ -41,7 +45,6 @@ export class UserRepository implements IUserRepository {
 
     const findUserByEmail = await this
       .repository
-      .user
       .findUnique({ where: { email: email } });
 
     return findUserByEmail;
@@ -51,7 +54,6 @@ export class UserRepository implements IUserRepository {
 
     const findAllUsers = await this
       .repository
-      .user
       .findMany();
 
     return findAllUsers;
@@ -61,7 +63,6 @@ export class UserRepository implements IUserRepository {
 
     const findUserById = await this
       .repository
-      .user
       .findUnique({ where: { id: sub } });
 
     return findUserById;
@@ -71,7 +72,6 @@ export class UserRepository implements IUserRepository {
 
     const findUser = await this
       .repository
-      .user
       .findUnique({ where: { id: sub } });
 
     if (findUser.isAdmin === true) {
@@ -84,11 +84,19 @@ export class UserRepository implements IUserRepository {
 
     await this
       .repository
-      .user
       .update({
         where: { id: sub },
         data: { isAdmin: true }
       });
+  }
+
+  async findByEmail(email: string): Promise<User> {
+
+    const user = await this
+      .repository
+      .findUnique({ where: { email: email } });
+
+    return user;
   }
 
 }

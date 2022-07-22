@@ -1,6 +1,7 @@
 import { IRentalRepository, IRequest } from "../IRentalRepository";
 import { prisma } from "../../../../Shared/infra/Prisma/Client/Client";
-import { Rental } from "@modules/rental/model/rental";
+import { Rental } from "../../../rental/model/rental";
+import { RequireAllRentalPropsDTO } from "@modules/rental/Services/Data/RequireAllRentalPropsDTO";
 
 export class RentalRepository implements IRentalRepository {
 
@@ -87,5 +88,18 @@ export class RentalRepository implements IRentalRepository {
           end_date: new Date()
         }
       });
+  }
+
+  async findUserRentals(user_id: string): Promise<Rental[] | RequireAllRentalPropsDTO> {
+
+    const findUserRentals = await this
+      .repository
+      .findMany(
+        {
+          where: { User: { id: user_id } },
+          include: { Car: true, User: true }
+        });
+
+    return findUserRentals;
   }
 }

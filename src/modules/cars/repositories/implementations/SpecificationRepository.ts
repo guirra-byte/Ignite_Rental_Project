@@ -8,15 +8,20 @@ import { Specifications } from "@prisma/client";
 
 export class SpecificationRepository implements ISpecificationsRepository {
 
-  private static INSTANCE: SpecificationRepository;
+  private repository: typeof prisma.specifications;
 
-  constructor(private repository: typeof prisma) { }
+  constructor() {
+
+    this.repository = prisma.specifications;
+  }
+
+  private static INSTANCE: SpecificationRepository;
 
   static getInstance(): SpecificationRepository {
 
     if (!SpecificationRepository.INSTANCE) {
 
-      SpecificationRepository.INSTANCE = new SpecificationRepository(prisma);
+      SpecificationRepository.INSTANCE = new SpecificationRepository();
     }
 
     return SpecificationRepository.INSTANCE;
@@ -27,7 +32,6 @@ export class SpecificationRepository implements ISpecificationsRepository {
 
     await this
       .repository
-      .specifications
       .create({
         data: {
           name, description,
@@ -40,7 +44,6 @@ export class SpecificationRepository implements ISpecificationsRepository {
 
     const findUniqueSpecification = await this
       .repository
-      .specifications
       .findUnique({
         where: { name: name },
         include: { Car: true }
@@ -53,7 +56,6 @@ export class SpecificationRepository implements ISpecificationsRepository {
 
     const findAllSpecifications = await this
       .repository
-      .specifications
       .findMany({ include: { Car: true } });
 
     return findAllSpecifications;
@@ -61,9 +63,8 @@ export class SpecificationRepository implements ISpecificationsRepository {
 
   async findById(ids: string[]): Promise<Specification[]> {
 
-    const findAll = await this.
-      repository
-      .specifications
+    const findAll = await this
+      .repository
       .findMany();
 
     const compareById = findAll

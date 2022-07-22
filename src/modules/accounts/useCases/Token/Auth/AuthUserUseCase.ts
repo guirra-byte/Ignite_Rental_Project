@@ -1,5 +1,6 @@
 import { IUserRepository } from '../../../repositories/IUserRepository';
 import { AppError } from '../../../../../Shared/infra/http/Errors/AppError';
+import { AUTH } from '../../../../../Config/auth';
 
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
@@ -10,24 +11,23 @@ interface IAuthUserRequestProps {
   password: string
 }
 
-interface IRequestReturnProps {
+interface IAuthRequest {
 
   user: {
     name: string,
     email: string,
     id: string
   },
-  token: string
+  token: string,
+  refresh_token: string
 }
-
-export const passwordKey = "f750766d2e4617e94eb4f943625ceeaa";
 
 export class AuthUserUseCase {
 
   constructor(
     private userRepository: IUserRepository) { }
 
-  async execute({ email, password }: IAuthUserRequestProps): Promise<IRequestReturnProps> {
+  async execute({ email, password }: IAuthUserRequestProps): Promise<IAuthRequest> {
 
     const user = await this
       .userRepository
@@ -38,6 +38,12 @@ export class AuthUserUseCase {
       throw new AppError("Email or password incorrect, but now is the Email!");
     }
 
+    const {
+      EXPIRES_IN_REFRESH_TOKEN,
+      EXPIRES_IN_TOKEN,
+      REFRESH_TOKEN_SECRET_KEY,
+      TOKEN_SECRET_KEY } = AUTH;
+
     const passwordComparison = await compare(password, user.password);
 
     if (passwordComparison === undefined) {
@@ -45,22 +51,31 @@ export class AuthUserUseCase {
       throw new AppError("Email or password are incorrect!");
     }
 
-    const token = sign({}, passwordKey, {
+    const token = sign({}, TOKEN_SECRET_KEY, {
 
       subject: user.id,
-      expiresIn: "1d"
+      expiresIn: EXPIRES_IN_TOKEN
     });
 
-    const tokenReturn: IRequestReturnProps = {
+    const refresh_token = sign(
+      { email },
+      REFRESH_TOKEN_SECRET_KEY,
+      {
+        subject: user.id,
+        expiresIn: EXPIRES_IN_REFRESH_TOKEN
+      });
 
-      token,
+    const requireTokens: IAuthRequest = {
+
       user: {
         name: user.name,
         email: user.email,
         id: user.id
-      }
+      },
+      token: token,
+      refresh_token: refresh_token
     }
 
-    return tokenReturn;
+    return requireTokens;
   }
 }

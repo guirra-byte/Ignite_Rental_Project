@@ -71,7 +71,7 @@
 
 
 # Devolução do Aluguel de carros:
-- [] Se o carro for devolvido em um espaço de tempo menor ou igual a 24 horas, deverá ser cobrado o valor da diária completa;
+- [x] Se o carro for devolvido em um espaço de tempo menor ou igual a 24 horas, deverá ser cobrado o valor da diária completa;
 - [x] Ao ser realizada a devolução, o carro deverá ser liberado para um outro possível aluguel;
 - [x] Ao ser realizada a devolução do carro, o user deverá ser liberado para um outro possível aluguel;
 - [x] Ao ser realizada a devolução do carro, deverá ser calculado o valor integral do aluguel;
@@ -82,6 +82,17 @@
 
 - [x] **`Verificação de User License_Plate por meio de Middleware;`**
 - [x] **`Verificação de User isAdmin por meio de Middleware;`**
+
+# Recuperar Senha:
+
+**Requisitos Funcionais: Recuperação de Senha**
+- [] Dever ser possível o User recuperar a senha informando o email;
+- [] O User deve receber um email com o passo a passo para a recuperação de senha;
+- [] O User deve conseguir inserir uma nova senha;
+
+**Regras de Negócios: Recuperação de Senha**
+- [] O User precisa informar uma nova senha;
+- [] O link enviado para a recuperação deve expirar em 3 Horas; 
 
 Requisitos da Aplicação:
 

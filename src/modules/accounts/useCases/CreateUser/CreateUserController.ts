@@ -11,7 +11,7 @@ export class CreateUserController {
 
     try {
 
-      const user = await this
+      await this
         .createUserUseCase
         .execute(name, username, email, password, driver_license);
 
@@ -23,7 +23,7 @@ export class CreateUserController {
 
       return response
         .status(400)
-        .json({ message: { exception } });
+        .send(exception);
     }
   }
 }

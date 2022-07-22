@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 import { exec } from 'child_process';
 import { config } from 'dotenv';
+import { DotenvConfigOutput } from 'dotenv';
 import { hash } from 'bcryptjs';
 import { v4 as uuidV4 } from 'uuid';
 import util from 'util';
@@ -64,9 +65,6 @@ const Connect = async (): Promise<void> => {
     await requireConnect
       .connect();
 
-    requireConnect
-      .query(`CREATE DATABASE rentalx_project_test3`);
-
     // requireConnect.end();
 
     enum TEST_DATABASE {
@@ -81,42 +79,35 @@ const Connect = async (): Promise<void> => {
       database: TEST_DATABASE.DATABASE_URL
     });
 
-    requireConnect
-      .query(`CREATE DATABASE rentalx_project_test4`);
+    const prismaMigrateDeploy = prismaClientCli
+      .split('/')[3]
+      .split(" ");
 
-    // //Prisma Source and Connect with Database;
-    // const prisma: PrismaClient = new PrismaClient;
-    // prisma.$connect();
+    const execSync = util.promisify(exec);
+    console.log(execSync);
 
-    // const prismaMigrateDeploy = prismaClientCli
-    //   .split('/')[3]
-    //   .split(" ");
-
-    // const execSync = util.promisify(exec);
-    // console.log(execSync);
-
-    // await execSync(`npx ${prismaMigrateDeploy} migrate dev`);
+    await execSync(`npx ${prismaMigrateDeploy} migrate dev`);
     // // ---- ** ----
 
-    const requirePasswordHash: string = await hash("mabel_84816756", 10);
+    // const requirePasswordHash: string = await hash("mabel_84816756", 10);
 
-    const requireId: string = uuidV4();
+    // const requireId: string = uuidV4();
 
-    requireConnect
-      .query(`CREATE TABLE users
-    (id VARCHAR(255) NOT NULL,
-     name VARCHAR(255) NOT NULL,
-     email VARCHAR(255) NOT NULL,
-     username VARCHAR(255) NOT NULL UNIQUE,
-     password VARCHAR(255) UNIQUE NOT NULL,
-     driver_license VARCHAR(255) UNIQUE NOT NULL,
-     created_at TIMESTAMP DEFAULT now() NOT NULL,
-     updated_at TIMESTAMP)`);
+    // requireConnect
+    //   .query(`CREATE TABLE users
+    // (id VARCHAR(255) NOT NULL,
+    //  name VARCHAR(255) NOT NULL,
+    //  email VARCHAR(255) NOT NULL,
+    //  username VARCHAR(255) NOT NULL UNIQUE,
+    //  password VARCHAR(255) UNIQUE NOT NULL,
+    //  driver_license VARCHAR(255) UNIQUE NOT NULL,
+    //  created_at TIMESTAMP DEFAULT now() NOT NULL,
+    //  updated_at TIMESTAMP)`);
 
-    requireConnect
-      .query(`INSERT INTO USERS(id, name, email, username, password,  driver_license) 
-      VALUES('${requireId}','Matheus Guirra', 'Guirra',
-       'guirramatheus1@gmail.com', '${requirePasswordHash}', 'MJI-2022')`);
+    // requireConnect
+    //   .query(`INSERT INTO USERS(id, name, email, username, password,  driver_license) 
+    //   VALUES('${requireId}','Matheus Guirra', 'Guirra',
+    //    'guirramatheus1@gmail.com', '${requirePasswordHash}', 'MJI-2022')`);
 
     await requireConnect
       .end();

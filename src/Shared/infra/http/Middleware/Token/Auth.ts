@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
+import { AUTH } from '../../../../../Config/auth';
 
 import { verify } from 'jsonwebtoken';
 
 import { UserRepository } from '../../../../../modules/accounts/repositories/implementations/UserRepository';
+import { RefreshTokenRepository } from '../../../../../modules/accounts/repositories/implementations/RefreshTokenRepository';
 import { AppError } from '../../Errors/AppError';
 
 interface IPayloadProps {
@@ -15,6 +17,7 @@ interface IPayloadProps {
 const VerifyUserAuthToken = async (request: Request, response: Response, next: NextFunction) => {
 
   const bearerToken = request.headers.authorization;
+  const machine_ip = request.ip;
 
   if (!bearerToken) {
 
@@ -26,15 +29,14 @@ const VerifyUserAuthToken = async (request: Request, response: Response, next: N
 
   try {
 
-    const user = verify(authToken, "f750766d2e4617e94eb4f943625ceeaa") as IPayloadProps;
+    const user = verify(authToken, AUTH.EXPIRES_IN_REFRESH_TOKEN) as IPayloadProps;
 
     const { sub } = user;
 
-    const userRepository = UserRepository
-      .getInstance();
+    const refreshTokenRepository: RefreshTokenRepository = RefreshTokenRepository.getInstance();
 
-    const findUser = await userRepository
-      .findById(sub);
+    const findUser = await refreshTokenRepository
+      .ensureUserAlreadyHaveARefreshToken(sub, machine_ip);
 
     if (!findUser) {
 

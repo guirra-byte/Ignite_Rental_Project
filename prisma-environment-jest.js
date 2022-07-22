@@ -59,7 +59,6 @@ class CustomEnvironment extends NodeEnvironment {
         user: "root",
         password: "V84816756",
         database: "rentalx_project" });
-    // Object.assign(databaseClient, {});
 
     await databaseClient
     .connect();

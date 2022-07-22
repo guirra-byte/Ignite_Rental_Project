@@ -7,7 +7,6 @@ import { IDateProvider } from "../../DateProvider/IDateProvider";
 export class CalcProvider implements ICalcProvider {
 
   constructor(
-    private rentalRepository: IRentalRepository,
     private requireDateProvider: IDateProvider) { }
 
   async resolve(daily_rate: number, return_date: Date): Promise<number> {

@@ -1,4 +1,5 @@
 import { Rental } from '../model/rental';
+import { RequireAllRentalPropsDTO } from '../Services/Data/RequireAllRentalPropsDTO';
 
 export interface IRequest {
 
@@ -13,5 +14,6 @@ export interface IRentalRepository {
   findOpenRentalByCar(car_id: string): Promise<Rental>
   findOpenRentalByUser(user_id: string): Promise<Rental>
   replaceTotal(final_value: number, rental_id: string): Promise<void>
+  findUserRentals(user_id: string): Promise<Rental[] | RequireAllRentalPropsDTO>
 
 }

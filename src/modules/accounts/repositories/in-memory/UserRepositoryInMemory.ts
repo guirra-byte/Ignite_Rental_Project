@@ -88,4 +88,16 @@ export class UserRepositoryInMemory implements IUserRepository {
       findUser.isAdmin = true;
     }
   }
+
+  async findByEmail(email: string): Promise<User> {
+
+    const findUserIndex = await this
+      .repository
+      .findIndex(async (user) => user.email === email);
+
+    const user = await this
+      .repository[findUserIndex];
+
+    return user;
+  }
 }

@@ -14,7 +14,7 @@ export class CreateUserUseCase {
 
     const findUser = await this
       .userRepository
-      .findOne(name);
+      .findOne(username);
 
     if (findUser) {
 
@@ -27,10 +27,6 @@ export class CreateUserUseCase {
         name, username, email,
         password: passwordHash, driver_license
       });
-
-    const findUserTest = await this
-      .userRepository
-      .findOne(username);
 
   }
 }

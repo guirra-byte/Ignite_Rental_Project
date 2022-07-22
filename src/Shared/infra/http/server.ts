@@ -10,6 +10,7 @@ import { AppError } from './Errors/AppError';
 import { categoriesRoutes } from './routes/Categories.routes';
 import { specificationsRoutes } from './routes/Specifications.routes';
 import { carRoutes } from './routes/Car.routes';
+import { rentalRoutes } from './routes/Rental.routes';
 
 import { userRoutes } from './routes/User.routes';
 import { authRoutes } from './routes/AuthUsers.routes';
@@ -18,10 +19,14 @@ import { authRoutes } from './routes/AuthUsers.routes';
 app.use('/car', carRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/specifications', specificationsRoutes);
+
+// ---- Car Rental Routes ----
+app.use(rentalRoutes);
+// ---- ** ----
 // ---- ** ----
 
 // ---- User Routes ----
-app.use('/user', userRoutes);
+// app.use('/user', userRoutes);
 app.use(authRoutes);
 app.use(userRoutes);
 // ---- ** ----

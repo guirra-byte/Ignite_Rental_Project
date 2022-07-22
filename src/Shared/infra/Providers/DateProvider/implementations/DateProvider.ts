@@ -31,8 +31,6 @@ export class DateProvider implements IDateProvider {
     const compareDates: number = dayjs(expectReturnDateFormat)
       .diff(startDate, "hours");
 
-    console.log(compareDates);
-
     // ---- ** ----
 
     // ---- Return na diferença entre as Dates ---- 
@@ -76,5 +74,23 @@ export class DateProvider implements IDateProvider {
       .format();
 
     return replaceDateToUTCFormat;
+  }
+
+  async addDays(days: number): Promise<Date> {
+
+    const addDays: Date = dayjs()
+      .add(days, "days")
+      .toDate();
+
+    return addDays;
+  }
+
+  async addHours(hours: number): Promise<Date> {
+
+    const addHours: Date = dayjs()
+      .add(hours, "hours")
+      .toDate();
+
+    return addHours;
   }
 }

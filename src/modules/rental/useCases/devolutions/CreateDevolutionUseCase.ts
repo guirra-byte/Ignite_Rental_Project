@@ -2,7 +2,6 @@ import { IUserRepository } from '../../../accounts/repositories/IUserRepository'
 import { ICarRepository } from '../../../cars/repositories/ICarRepository';
 import { IRentalRepository } from '../../repositories/IRentalRepository';
 
-import { ICalcProvider } from '../../../../Shared/infra/Providers/CalcRentalProvider/ICalcProvider';
 import { AppError } from '../../../../Shared/infra/http/Errors/AppError';
 
 import { IDateProvider } from '../../../../Shared/infra/Providers/DateProvider/IDateProvider';
@@ -15,6 +14,24 @@ interface IRequest {
 
 }
 
+interface IRentalRequest {
+
+  rental_id: string,
+  totalToPay: number,
+  user: {
+    nameAccess: string,
+    driver_license: string,
+    email: string,
+    username: string
+  },
+  car: {
+    name: string,
+    brand: string,
+    category_id: string,
+    description: string
+  }
+}
+
 export class CreateDevolutionUseCase {
 
   constructor(
@@ -23,7 +40,7 @@ export class CreateDevolutionUseCase {
     private rentalRepository: IRentalRepository,
     private requireDateProvider: IDateProvider) { }
 
-  async execute(data: IRequest): Promise<void> {
+  async execute(data: IRequest): Promise<IRentalRequest> {
 
     const minDaily = 1;
     let totalToPay: number = 0;
@@ -111,5 +128,36 @@ export class CreateDevolutionUseCase {
       .carRepository
       .replaceAvailable(ensureOpenRentalByCar.car_id, true);
 
+    const car = await this
+      .carRepository
+      .findById(ensureOpenRentalByCar.car_id);
+
+    const { brand, category_id, description, name } = car;
+
+    const user = await this
+      .userRepository
+      .findById(ensureOpenRentalByUser.user_id);
+
+    const { name: nameAccess, driver_license, email, username } = user;
+
+    const requireRentalInfos: IRentalRequest = {
+
+      rental_id: ensureOpenRentalByUser.id,
+      totalToPay: totalToPay,
+      user: {
+        nameAccess,
+        driver_license,
+        email,
+        username
+      },
+      car: {
+        name,
+        brand,
+        category_id,
+        description
+      },
+    }
+
+    return requireRentalInfos;
   }
 }
